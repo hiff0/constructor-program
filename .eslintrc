@@ -1,0 +1,31 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "parser": "vue-eslint-parser",
+
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser"
+  },
+
+  "extends": [
+    "@nuxtjs/eslint-config-typescript"
+  ],
+
+  "plugins": [],
+  "rules": {
+    "vue/html-indent": ["error", 4],
+    "indent": ["error", 4],
+    "vue/html-self-closing": ["error", {
+      "html": {
+        "void": "never",
+        "normal": "any",
+        "component": "any"
+      },
+      "svg": "any",
+      "math": "any"
+    }]
+  }
+}
