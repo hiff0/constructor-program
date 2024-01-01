@@ -84,6 +84,7 @@ export interface AudioMetaData {
     audioUrl: string;
     duration: number;
     currentPlayerTime;
+    audioDom: HTMLMediaElement;
 }
 
 export interface CurrentThreeElements {

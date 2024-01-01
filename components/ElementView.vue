@@ -173,10 +173,11 @@ const onAdd = () => {
             endTime: getSecondFromMinuteAndSeconds(elementData.endTime)
         })
 
+        // WARNING: Нужно быть уверенным, что элементы отфильтрованы по времени startTime,
+        // т.к. это важно для работы плеера
         addDialog.value = false
-        console.log('tableElement: ', tableElement)
+        console.log('added tableElement: ', tableElement)
         elements.value.push(tableElement)
-        elements.value = elements.value.sort((a, b) => a.startTime - b.startTime)
     }
 }
 

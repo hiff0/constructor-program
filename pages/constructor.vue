@@ -3,12 +3,9 @@
         <v-row>
             <v-col>
                 <ProgramName />
-                <RinkCanvas
-                    :currentsThreeElements="currentsThreeElements"
-                />
+                <RinkCanvas />
                 <ProgramPlayer
                     v-if="isFileLoad"
-                    :currentsThreeElements="currentsThreeElements"
                 />
                 <AVWaveForm
                     v-if="isFileLoad"
@@ -37,7 +34,7 @@
     setup
     lang="ts"
 >
-import type { ElementTableView, CurrentThreeElements } from '@/interfaces'
+import type { ElementTableView } from '@/interfaces'
 
 definePageMeta({
     layout: 'default'
@@ -48,19 +45,6 @@ const stepSequence = useStepSequence()
 const audioMetaData = useAudioMetaData()
 
 const isFileLoad = ref<boolean>(false)
-const currentsThreeElements = computed<CurrentThreeElements>(() => {
-    const currentElement = elements.value.find(element => element.startTime >= audioMetaData.value.currentPlayerTime &&
-        element.endTime < audioMetaData.value.currentPlayerTime)
-    const currentElementIndex = elements.value.indexOf(currentElement)
-    const nextElement = elements.value[currentElementIndex - 1] || null
-    const prevElement = elements.value[currentElementIndex + 1] || null
-
-    return {
-        currentElement,
-        nextElement,
-        prevElement
-    }
-})
 
 const onLoadAudio = () => {
     isFileLoad.value = true

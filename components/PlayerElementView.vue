@@ -1,11 +1,9 @@
 <template>
-    <v-btn
-        type="button"
+    <div
         class="player_element"
-        @click="onElementClick"
     >
         {{ props.element.fullname }}
-    </v-btn>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -16,12 +14,6 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
-const emits = defineEmits(['elementClick'])
-
-const onElementClick = () => {
-    emits('elementClick', props.element)
-}
 </script>
 
 <style scoped>
@@ -32,5 +24,8 @@ const onElementClick = () => {
     justify-content: center;
     align-items: center;
     text-transform: none;
+
+    border-radius: 10px;
+    background-color: #aaaaaa;
 }
 </style>

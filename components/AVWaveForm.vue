@@ -30,10 +30,10 @@ const audioRef = ref<HTMLMediaElement | null>(null)
 
 onMounted(() => {
     audioMetaData.value.currentPlayerTime = audioRef.value.currentTime
+    audioMetaData.value.audioDom = audioRef.value
 
     audioRef.value.ontimeupdate = (event) => {
         audioMetaData.value.currentPlayerTime = event.target.currentTime
-        console.log('timeupdate: ', event.target.currentTime)
     }
 })
 </script>
