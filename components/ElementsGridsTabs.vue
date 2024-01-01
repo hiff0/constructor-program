@@ -20,21 +20,18 @@
                 <v-window-item value="jump">
                     <ElementsGrid
                         :elements="jumps"
-                        :audio-duration="props.audioDuration"
                     />
                 </v-window-item>
 
                 <v-window-item value="spin">
                     <ElementsGrid
                         :elements="spins"
-                        :audio-duration="props.audioDuration"
                     />
                 </v-window-item>
 
                 <v-window-item value="track">
                     <ElementsGrid
                         :elements="tracks"
-                        :audio-duration="props.audioDuration"
                     />
                 </v-window-item>
             </v-window>
@@ -46,15 +43,10 @@
     setup
     lang="ts"
 >
-interface Props {
-    audioDuration: number;
-}
 
 const tab = ref(null)
 const jumps = useJumps()
 const spins = useSpins()
 const tracks = useTracks()
-
-const props = defineProps<Props>()
 
 </script>

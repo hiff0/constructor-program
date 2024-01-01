@@ -36,6 +36,7 @@
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
     "d3": "^7.8.5",
+    "deep-clone": "^4.0.0",
     "jsonwebtoken": "^9.0.2",
     "zod": "^3.22.4"
   }

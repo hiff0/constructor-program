@@ -95,6 +95,7 @@
     setup
     lang="ts"
 >
+import deepClone from 'deep-clone'
 import { required, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 import { getSecondFromMinuteAndSeconds } from '@/utils/audio'
@@ -164,7 +165,8 @@ const onEndTimeInput = (time: string) => {
 const onAdd = () => {
     v$.value.$validate()
     if (!v$.value.$error) {
-        const tableElement: ElementTableView = Object.assign(props.element, {
+        const cloneElement = deepClone(props.element)
+        const tableElement: ElementTableView = Object.assign(cloneElement, {
             fullname: `${elementData.lvlName}${props.element.name}`,
             lvlName: elementData.lvlName,
             timeExecute: `${elementData.startTime}-${elementData.endTime}`,
@@ -173,11 +175,12 @@ const onAdd = () => {
             endTime: getSecondFromMinuteAndSeconds(elementData.endTime)
         })
 
-        // WARNING: Нужно быть уверенным, что элементы отфильтрованы по времени startTime,
+        // Нужно быть уверенным, что элементы отфильтрованы по времени startTime,
         // т.к. это важно для работы плеера
         addDialog.value = false
         console.log('added tableElement: ', tableElement)
         elements.value.push(tableElement)
+        elements.value = elements.value.sort((a, b) => a.startTime - b.startTime)
     }
 }
 

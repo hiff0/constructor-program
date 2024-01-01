@@ -13,7 +13,7 @@
     lang="ts"
 >
 import type { ElementTableView } from '@/interfaces'
-import { useCurrentDraggableElement } from '@/composables'
+import { useAudioMetaData, useCurrentDraggableElement } from '@/composables'
 
 interface Props {
     element: ElementTableView;
@@ -23,11 +23,14 @@ const currentDraggableElement = useCurrentDraggableElement()
 
 const props = defineProps<Props>()
 const draggableElement = ref<HTMLDivElement | null>(null)
+const audioMetaData = useAudioMetaData()
 
 onMounted(() => {
-    const element = draggableElement.value as HTMLElement
-    element.ondragstart = (event) => {
+    const elementDom = draggableElement.value as HTMLElement
+    elementDom.ondragstart = (event) => {
         currentDraggableElement.value = draggableElement.value
+
+        audioMetaData.value.audioDom.currentTime = props.element.startTime
 
         event.dataTransfer?.setData('mouseClickOffsetX', event.offsetX.toString())
         event.dataTransfer?.setData('mouseClickOffsetY', event.offsetY.toString())

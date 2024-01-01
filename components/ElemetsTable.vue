@@ -18,13 +18,13 @@
         </thead>
         <tbody>
             <template
-                v-if="prop.elements.length"
+                v-if="elements.length"
             >
                 <v-hover
-                    v-slot="{ isHovering, props }"
+                    v-slot="{ isHovering }"
                 >
                     <tr
-                        v-for="(element, index) in prop.elements"
+                        v-for="(element, index) in elements"
                         :key="element.key"
                         :class="{ 'row__select': isHovering }"
                         v-bind="props"
@@ -70,18 +70,14 @@
     setup
     lang="ts"
 >
+// FIXME: починить hover у таблицы
 import type { ElementTableView, JumpsDifficultLvls, DefaultDifficultLvls } from '@/interfaces'
 
-interface Props {
-    elements: ElementTableView[];
-}
-
-const prop = defineProps<Props>()
-
-const emit = defineEmits(['elementDelete'])
+const elements = useTableElements()
 
 const deleteElement = (element: ElementTableView) => {
-    emit('elementDelete', element)
+    elements.value = elements.value.filter(el => el !== element)
+    element.draggebleDom?.remove()
 }
 
 </script>

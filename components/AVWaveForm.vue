@@ -6,7 +6,7 @@
         <audio
             id="constructorAudio"
             ref="audioRef"
-            :src="props.source"
+            :src="audioMetaData.audioUrl"
             controls
         >
             К сожалению, ваш браузер не поддерживает встроенное аудио
@@ -18,12 +18,6 @@
     lang="ts"
     setup
 >
-
-interface Props {
-    source: string;
-}
-
-const props = defineProps<Props>()
 
 const audioMetaData = useAudioMetaData()
 const audioRef = ref<HTMLMediaElement | null>(null)
