@@ -21,7 +21,7 @@
                 v-if="elements.length"
             >
                 <v-hover
-                    v-slot="{ isHovering }"
+                    v-slot="{ isHovering, props }"
                 >
                     <tr
                         v-for="(element, index) in elements"
@@ -70,10 +70,13 @@
     setup
     lang="ts"
 >
-// FIXME: починить hover у таблицы
 import type { ElementTableView, JumpsDifficultLvls, DefaultDifficultLvls } from '@/interfaces'
 
 const elements = useTableElements()
+
+// FIXME: v-hover работает только с props, может можно как-то по-другому
+interface Props {}
+const props = defineProps<Props>()
 
 const deleteElement = (element: ElementTableView) => {
     elements.value = elements.value.filter(el => el !== element)
