@@ -36,14 +36,15 @@
     setup
 >
 import { setElementMoveFunction, disableElementMoveFunction } from '@/utils/mouse'
+import { hideElement, showElement } from '@/utils/domManipulation'
 
 const canvas = ref<HTMLDivElement | null>(null)
 const chart = ref<HTMLElement | null>(null)
 
 const currentDraggableElement = useCurrentDraggableElement()
 const isConstructorEditable = useIsConstructorEditable()
+const audioMetaData = useAudioMetaData()
 const elements = useTableElements()
-const lastElementStartTime = useLastElementStartTime()
 
 const setTargetCanvasDraggHandler = (targetCanvas: HTMLDivElement) => {
     targetCanvas.ondrop = (event) => {
@@ -69,7 +70,6 @@ const setTargetCanvasDraggHandler = (targetCanvas: HTMLDivElement) => {
             const elementInTable = elements.value[elementIndex]
             elementInTable.draggebleDom = currentDraggableElement.value
             elementInTable.isInIce = true
-            lastElementStartTime.value = elementInTable.startTime
         }
 
         currentDraggableElement.value = null
@@ -97,6 +97,32 @@ const disableTargetCanvasDraggHandler = (targetCanvas: HTMLDivElement) => {
     targetCanvas.ondragleave = null
     targetCanvas.ondragend = null
 }
+
+watch(audioMetaData, (audioData) => {
+    // FIXME: Определять элементы, которые нужно показывать за один цикл
+    // Возможно, хранить текущие 3 элемента в сторе, т.к. они нужны еще в плеере
+    let currentElementIndex: number | null = null
+    elements.value.forEach((element, index) => {
+        if (element.startTime <= audioData.currentPlayerTime &&
+            element.endTime > audioData.currentPlayerTime) {
+            currentElementIndex = index
+            element.draggebleDom && showElement(element.draggebleDom)
+        }
+    })
+
+    elements.value.forEach((element, index) => {
+        const isCurrentElement = index === currentElementIndex
+        const isPrevElement = currentElementIndex && index === currentElementIndex - 1
+        const isNextElement = currentElementIndex && index === currentElementIndex + 1
+        if (isCurrentElement || isPrevElement || isNextElement) {
+            element.draggebleDom && showElement(element.draggebleDom)
+        } else {
+            element.draggebleDom && hideElement(element.draggebleDom)
+        }
+    })
+}, {
+    deep: true
+})
 
 onMounted(() => {
     const targetCanvas = canvas.value as HTMLDivElement
