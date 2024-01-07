@@ -125,6 +125,8 @@ const jumps: Jump[] = [
             }
         }
     }
-]
+] as const
+// WARNING: Проверить как работает as const, можно ли будет изменить прыжки
+// И нужно ли использовать его или достаточно использовать readonly
 
 export const useJumps = () => useState<Jump[]>('jumps', () => jumps)

@@ -33,6 +33,8 @@ const tracks: Track[] = [
             }
         }
     }
-]
+] as const
+// WARNING: Проверить как работает as const, можно ли будет изменить дорожки
+// И нужно ли использовать его или достаточно использовать readonly
 
 export const useTracks = () => useState<Track[]>('tracks', () => tracks)

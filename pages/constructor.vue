@@ -24,7 +24,7 @@
     </div>
 </template>
 
-//TODO: перейти на FSD
+// TODO: перейти на FSD
 
 <script
     setup

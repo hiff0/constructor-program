@@ -111,6 +111,8 @@ const spins: Spin[] = [
             }
         }
     }
-]
+] as const
+// WARNING: Проверить как работает as const, можно ли будет изменить вращения
+// И нужно ли использовать его или достаточно использовать readonly
 
 export const useSpins = () => useState<Spin[]>('spins', () => spins)

@@ -13,8 +13,47 @@
                     <svg
                         ref="chart"
                         class="chart"
+                        xmlns="http://www.w3.org/2000/svg"
                     >
-                        <path class="u-path" />
+                        <path
+                            v-for="(line, index) in quadraticStepSequence"
+                            :key="index"
+                            fill="none"
+                            stroke="orange"
+                            stroke-width="3"
+                            stroke-dasharray='10 10'
+                            :class="`u-path${index}`"
+                        />
+                        <g
+                            v-for="(line, index) in quadraticStepSequence"
+                            :key="index"
+                            :class="`u-point${index}`"
+                        >
+                            <circle r="5" />
+                        </g>
+
+                        <template
+                            v-for="(element, index) in elements"
+                            :key="element.key + index"
+                        >
+                            <g
+                                v-if="element.isShow && element.isInIce"
+                                width="45"
+                                height="45"
+                                :class="`u-element${index}`"
+                            >
+                                <rect
+                                    :x="element.x"
+                                    :y="element.y"
+                                    width="45"
+                                    height="45"
+                                    rx="10"
+                                    stroke="none"
+                                    fill="#e6c660"
+                                />
+                                <text :x="element.x" :y="element.y">{{ element.fullname }}</text>
+                            </g>
+                        </template>
                     </svg>
                 </div>
             </v-row>
@@ -23,6 +62,7 @@
                     v-model="isConstructorEditable"
                     label="Редактирование"
                 ></v-checkbox>
+                {{ quadraticStepSequence }}
             </v-row>
         </v-col>
         <v-col>
@@ -35,8 +75,9 @@
     lang="ts"
     setup
 >
-import { setElementMoveFunction, disableElementMoveFunction } from '@/utils/mouse'
 import { hideElement, showElement } from '@/utils/domManipulation'
+import { draggable, getLineCenter } from '~/utils/rinkCanvas'
+import type { StepSequencePos, StartPoint, QuadraticCurvePos } from '@/interfaces'
 
 const canvas = ref<HTMLDivElement | null>(null)
 const chart = ref<HTMLElement | null>(null)
@@ -45,6 +86,35 @@ const currentDraggableElement = useCurrentDraggableElement()
 const isConstructorEditable = useIsConstructorEditable()
 const audioMetaData = useAudioMetaData()
 const elements = useTableElements()
+
+const quadraticStepSequence = computed<StepSequencePos[]>(() => elements.value.reduce((acc: StepSequencePos[], element, index, elementsOrigin) => {
+    if (elementsOrigin[index + 1] && elementsOrigin[index + 1].isInIce && elementsOrigin[index + 1].isShow) {
+        const x0 = element.xCenter as number
+        const y0 = element.yCenter as number
+
+        const startPos: StartPoint = { x0, y0 }
+
+        const x = elementsOrigin[index + 1].xCenter as number
+        const y = elementsOrigin[index + 1].yCenter as number
+
+        const lineCenter = getLineCenter(x0, y0, x, y)
+        const quadraticCurvePos: QuadraticCurvePos = {
+            cpx: lineCenter.x,
+            cpy: lineCenter.y,
+            x,
+            y
+        }
+
+        const stepSequencePos: StepSequencePos = {
+            startPos,
+            quadraticCurvePos
+        }
+
+        acc.push(stepSequencePos)
+    }
+
+    return acc
+}, []))
 
 const setTargetCanvasDraggHandler = (targetCanvas: HTMLDivElement) => {
     targetCanvas.ondrop = (event) => {
@@ -58,17 +128,13 @@ const setTargetCanvasDraggHandler = (targetCanvas: HTMLDivElement) => {
             const x = event.offsetX - mouseClickOffsetX
             const y = event.offsetY - mouseClickOffsetY
 
-            targetCanvas.appendChild(currentDraggableElement.value)
-            currentDraggableElement.value.style.position = 'absolute'
-            currentDraggableElement.value.style.zIndex = '1000'
-            currentDraggableElement.value.style.top = `${y}px`
-            currentDraggableElement.value.style.left = `${x}px`
-            currentDraggableElement.value.style.cursor = 'pointer'
-
-            setElementMoveFunction(targetCanvas, currentDraggableElement.value)
-
             const elementInTable = elements.value[elementIndex]
             elementInTable.draggebleDom = currentDraggableElement.value
+            elementInTable.xCenter = x
+            elementInTable.yCenter = y
+            elementInTable.x = x
+            elementInTable.y = y
+            elementInTable.isShow = true
             elementInTable.isInIce = true
         }
 
@@ -107,6 +173,7 @@ watch(audioMetaData, (audioData) => {
             element.endTime > audioData.currentPlayerTime) {
             currentElementIndex = index
             element.draggebleDom && showElement(element.draggebleDom)
+            element.isShow = true
         }
     })
 
@@ -116,8 +183,10 @@ watch(audioMetaData, (audioData) => {
         const isNextElement = currentElementIndex && index === currentElementIndex + 1
         if (isCurrentElement || isPrevElement || isNextElement) {
             element.draggebleDom && showElement(element.draggebleDom)
+            element.isShow = true
         } else {
             element.draggebleDom && hideElement(element.draggebleDom)
+            element.isShow = false
         }
     })
 }, {
@@ -126,24 +195,32 @@ watch(audioMetaData, (audioData) => {
 
 onMounted(() => {
     const targetCanvas = canvas.value as HTMLDivElement
+    const chartHtml = chart.value as HTMLElement
 
     if (isConstructorEditable.value) {
         setTargetCanvasDraggHandler(targetCanvas)
     }
 
+    draggable(chartHtml, quadraticStepSequence.value)
+
+    watch(quadraticStepSequence, (updateQuadraticStepSequence): void => {
+        // console.log('updateQuadraticStepSequence: ', updateQuadraticStepSequence)
+        draggable(chartHtml, updateQuadraticStepSequence)
+    })
+
     watch(isConstructorEditable, (isEditable) => {
         if (isEditable) {
             setTargetCanvasDraggHandler(targetCanvas)
 
-            for (const element of elements.value) {
-                element.draggebleDom && setElementMoveFunction(targetCanvas, element.draggebleDom)
-            }
+            // for (const element of elements.value) {
+            //     element.draggebleDom && setElementMoveFunction(targetCanvas, element.draggebleDom)
+            // }
         } else {
             disableTargetCanvasDraggHandler(targetCanvas)
 
-            for (const element of elements.value) {
-                element.draggebleDom && disableElementMoveFunction(targetCanvas, element.draggebleDom)
-            }
+            // for (const element of elements.value) {
+            //     element.draggebleDom && disableElementMoveFunction(targetCanvas, element.draggebleDom)
+            // }
         }
     })
 })
@@ -166,12 +243,5 @@ onMounted(() => {
 .chart {
     width: 100%;
     height: 100%;
-}
-
-.chart .u-line { stroke: #aaa; stroke-dasharray: 2 2; }
-.chart .u-path { stroke: orange; fill: none; }
-.chart .u-point circle {
-    fill: orange;
-    z-index: 1500;
 }
 </style>

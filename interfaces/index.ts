@@ -1,14 +1,14 @@
 export interface Element {
-    key: string;
-    name: string;
-    title: string;
+    readonly key: string;
+    readonly name: string;
+    readonly title: string;
 }
 
 type DifficultLvl = '1' | '2' | '3' | '4' | 'B';
 
 export type DefaultDifficultLvls = {
     [key in DifficultLvl]?: {
-        baseCost: number;
+        readonly baseCost: number;
     }
 }
 
@@ -19,26 +19,26 @@ type JumpsKeys = 'T' | 'S' | 'Lo' | 'Eu' | 'F' | 'Lz' | 'A';
 
 export type JumpsDifficultLvls = {
     [key in JumpDifficultLvl]?: {
-        baseCost: number;
+        readonly baseCost: number;
     }
 }
 
 export interface Jump extends Element {
-    key: JumpsKeys;
-    name: JumpsKeys;
-    difficultLvls: JumpsDifficultLvls;
+    readonly key: JumpsKeys;
+    readonly name: JumpsKeys;
+    readonly difficultLvls: JumpsDifficultLvls;
 }
 
 // ---------------------------- Track ------------------------------------
 
 export interface Track extends Element {
-    difficultLvls: DefaultDifficultLvls,
+    readonly difficultLvls: DefaultDifficultLvls,
 }
 
 // ---------------------------- Spin ------------------------------------
 
 export interface Spin extends Element {
-    difficultLvls: DefaultDifficultLvls,
+    readonly difficultLvls: DefaultDifficultLvls,
 }
 
 export type ElementView = Jump | Track | Spin;
@@ -47,9 +47,17 @@ export type ElementTableView = ElementView & {
     lvlName: string;
     timeExecute: string;
     draggebleDom?: HTMLElement;
-    isInIce: boolean;
+
     startTime: number;
     endTime: number;
+
+    xCenter?: number;
+    yCenter?: number;
+    x: number;
+    y: number;
+
+    isShow?: boolean;
+    isInIce: boolean;
 }
 
 // ---------------------------- Auth ------------------------------------
@@ -77,18 +85,29 @@ export interface StepSequence {
     id: number;
 }
 
+export interface StartPoint {
+    x0: number;
+    y0: number;
+}
+
+export interface QuadraticCurvePos {
+    cpx: number;
+    cpy: number;
+    x: number;
+    y: number;
+}
+
+export interface StepSequencePos {
+    startPos: StartPoint;
+    quadraticCurvePos: QuadraticCurvePos;
+}
+
 // ---------------------------- Audio ------------------------------------
 
 export interface AudioMetaData {
     audioName: string;
     audioUrl: string;
     duration: number;
-    currentPlayerTime;
+    currentPlayerTime: number;
     audioDom: HTMLMediaElement;
-}
-
-export interface CurrentThreeElements {
-    currentElement: ElementTableView | null;
-    nextElement: ElementTableView | null;
-    prevElement: ElementTableView | null;
 }

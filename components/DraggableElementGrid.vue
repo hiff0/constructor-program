@@ -6,12 +6,16 @@
             v-if="elements.length"
             class="d-flex flew-wrap draggable_grid_element"
         >
-            <DraggableElementView
+            <template
                 v-for="(element, index) in elements"
                 :key="element.key"
-                :element-index="index"
-                :element="element"
-            />
+            >
+                <DraggableElementView
+                    v-if="!element.isInIce"
+                    :element-index="index"
+                    :element="element"
+                />
+            </template>
         </div>
 
         <div

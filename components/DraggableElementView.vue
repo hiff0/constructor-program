@@ -43,7 +43,7 @@ onMounted(() => {
 .element {
     width: 40px;
     height: 40px;
-    background-color: rgb(210, 181, 108);
+    background-color: #e6c660;
     border-radius: 0.5em;
     cursor: grab;
 
