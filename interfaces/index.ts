@@ -41,49 +41,7 @@ export interface Spin extends Element {
     readonly difficultLvls: DefaultDifficultLvls,
 }
 
-export type ElementView = Jump | Track | Spin;
-export type ElementTableView = ElementView & {
-    fullname: string;
-    lvlName: string;
-    timeExecute: string;
-    draggebleDom?: HTMLElement;
-
-    startTime: number;
-    endTime: number;
-
-    xCenter?: number;
-    yCenter?: number;
-    x: number;
-    y: number;
-
-    isShow?: boolean;
-    isInIce: boolean;
-}
-
-// ---------------------------- Auth ------------------------------------
-
-export interface Auth {
-    isAuthenticated: boolean;
-}
-
 // ---------------------------- Step Sequence ------------------------------------
-
-export interface StepSequence {
-    x0: number;
-    y0: number;
-    x1: number;
-    y1: number;
-
-    cx1: number;
-    cy1: number;
-    cx2: number;
-    cy2: number;
-
-    from: HTMLElement;
-    to: HTMLElement;
-
-    id: number;
-}
 
 export interface StartPoint {
     x0: number;
@@ -100,6 +58,37 @@ export interface QuadraticCurvePos {
 export interface StepSequencePos {
     startPos: StartPoint;
     quadraticCurvePos: QuadraticCurvePos;
+    toIndex: number;
+    d: string;
+}
+
+// ---------------------------- Element in Table and Canvas ------------------------------------
+
+export type ElementView = Jump | Track | Spin;
+export type ElementTableView = ElementView & {
+    fullname: string;
+    lvlName: string;
+    timeExecute: string;
+    draggebleDom?: HTMLElement;
+
+    startTime: number;
+    endTime: number;
+
+    xCenter?: number;
+    yCenter?: number;
+    x?: number;
+    y?: number;
+    cpx?: number;
+    cpy?: number;
+
+    isShow?: boolean;
+    isInIce: boolean;
+}
+
+// ---------------------------- Auth ------------------------------------
+
+export interface Auth {
+    isAuthenticated: boolean;
 }
 
 // ---------------------------- Audio ------------------------------------
@@ -110,4 +99,5 @@ export interface AudioMetaData {
     duration: number;
     currentPlayerTime: number;
     audioDom: HTMLMediaElement;
+    audioAnalyser: AnalyserNode;
 }

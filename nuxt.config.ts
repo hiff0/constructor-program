@@ -1,9 +1,15 @@
 export default defineNuxtConfig({
-    css: ['~/assets/css/main.css'],
+    css: [
+        '~/assets/css/main.css',
+        'vuetify/lib/styles/main.sass',
+        '@mdi/font/css/materialdesignicons.css'
+    ],
 
     imports: {
         dirs: [
-            './feature'
+            'feature/**',
+            'entities/**',
+            'widgets/**'
         ]
     },
 
@@ -16,25 +22,27 @@ export default defineNuxtConfig({
 
     modules: [
         '@nuxt/image',
-        '@invictus.codes/nuxt-vuetify',
-        '@nuxtjs/eslint-module',
-        '@sidebase/nuxt-auth'
+        '@nuxtjs/eslint-module'
+        // '@sidebase/nuxt-auth'
     ],
 
     build: {
-        transpile: ['jsonwebtoken']
-    },
-
-    auth: {
-        baseURL: 'api/auth',
-        provider: {
-            type: 'local',
-            pages: {
-                login: '/signin'
-            },
-            token: {
-                signInResponseTokenPointer: '/token/accessToken'
-            }
-        }
+        transpile: [
+            'jsonwebtoken',
+            'vuetify'
+        ]
     }
+
+    // auth: {
+    //     baseURL: 'api/auth',
+    //     provider: {
+    //         type: 'local',
+    //         pages: {
+    //             login: '/signin'
+    //         },
+    //         token: {
+    //             signInResponseTokenPointer: '/token/accessToken'
+    //         }
+    //     }
+    // }
 })

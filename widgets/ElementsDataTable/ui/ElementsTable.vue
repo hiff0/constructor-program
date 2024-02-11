@@ -58,22 +58,6 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="3">
-                        <v-btn
-                            @click="openAddDialog"
-                        >
-                            <v-icon
-                                icon="mdi-plus"
-                                size="x-large"
-                                start
-                            ></v-icon>
-                            Добавить элемент
-                        </v-btn>
-                    </td>
-                    <td colspan="4">
-                    </td>
-                </tr>
-                <tr>
                     <td class="text-end" colspan="3">
                         Базовая стоимость
                     </td>
@@ -86,43 +70,20 @@
             <tr
                 v-else
             >
-                <td colspan="3">
-                    <v-btn
-                        @click="openAddDialog"
-                    >
-                        <v-icon
-                            icon="mdi-plus"
-                            size="x-large"
-                            start
-                        ></v-icon>
-                        Добавить элемент
-                    </v-btn>
-                </td>
-                <td colspan="4">
+                <td colspan="7" class="text-center">
                     Нет элементов
                 </td>
             </tr>
         </tbody>
     </v-table>
-
-    <v-dialog
-        v-model="addDialog"
-        width="auto"
-        :absolute="true"
-    >
-        <AddElementCard
-            @close-dialog="closeAddDialog"
-        />
-    </v-dialog>
 </template>
 
 <script
-    setup
     lang="ts"
+    setup
 >
+import { useTableElements } from '@/composables'
 import type { ElementTableView, JumpsDifficultLvls, DefaultDifficultLvls } from '@/interfaces'
-
-const addDialog = ref(false)
 
 const elements = useTableElements()
 
@@ -130,15 +91,6 @@ const deleteElement = (element: ElementTableView) => {
     elements.value = elements.value.filter(el => el !== element)
     element.draggebleDom?.remove()
 }
-
-const openAddDialog = () => {
-    addDialog.value = true
-}
-
-const closeAddDialog = () => {
-    addDialog.value = false
-}
-
 </script>
 
 <style scoped>

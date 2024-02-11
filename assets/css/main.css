@@ -1,3 +1,8 @@
+:root {
+    -main-grey: #8C8F92;
+    -main-light-grey: #D0D1D2;
+}
+
 * {
     margin: 0;
     box-sizing: border-box;

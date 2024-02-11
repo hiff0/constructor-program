@@ -98,7 +98,7 @@
 import deepClone from 'deep-clone'
 import { required, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
-import { getSecondFromMinuteAndSeconds } from '@/utils/audio'
+import { getSecondFromMinuteAndSeconds } from '@/shared/utils/audio'
 import type { ElementView, ElementTableView } from '@/interfaces'
 
 interface Props {
@@ -167,6 +167,7 @@ const onAdd = () => {
     if (!v$.value.$error) {
         const cloneElement = deepClone(props.element)
         const tableElement: ElementTableView = Object.assign(cloneElement, {
+            key: `${props.element.key}${elements.value.length}`,
             fullname: `${elementData.lvlName}${props.element.name}`,
             lvlName: elementData.lvlName,
             timeExecute: `${elementData.startTime}-${elementData.endTime}`,
