@@ -1,72 +1,80 @@
 <template>
-    <v-form>
-        <v-radio-group
-            v-model="elementData.lvlName"
-            :inline="true"
-        >
-            <v-radio
-                v-for="lvlkey in difficultLvlKeys"
-                :key="lvlkey?.baseCost"
-                :label="`${lvlkey?.baseCost}`"
-                :value="lvlkey"
-            />
-        </v-radio-group>
+    <v-card flat>
+        <v-card-title>Выберите сложность элемента и время выполнения</v-card-title>
 
-        <div class="d-flex mb-3">
-            <label
-                for="startTime"
+        <v-card-text>
+            <v-form>
+                <v-radio-group
+                    v-model="elementData.lvlName"
+                    :inline="true"
+                >
+                    <v-radio
+                        v-for="lvlkey in difficultLvlKeys"
+                        :key="lvlkey"
+                        :label="`${lvlkey}`"
+                        :value="lvlkey"
+                    />
+                </v-radio-group>
+
+                <div class="d-flex mb-3">
+                    <label
+                        for="startTime"
+                        class="mr-3"
+                    >
+                        Время начала
+                    </label>
+
+                    <MinuteWithSecondInput
+                        @input="onStartTimeInput"
+                    />
+
+                    <label
+                        for="endTime"
+                        class="mr-3"
+                    >
+                        Время конца
+                    </label>
+
+                    <MinuteWithSecondInput
+                        @input="onEndTimeInput"
+                    />
+                </div>
+            </v-form>
+        </v-card-text>
+
+        <v-card-actions>
+            <v-btn
+                type="button"
                 class="mr-3"
+                @click="onAdd"
             >
-                Время начала
-            </label>
+                Добавить
+            </v-btn>
 
-            <MinuteWithSecondInput
-                @input="onStartTimeInput"
-            />
-
-            <label
-                for="endTime"
-                class="mr-3"
+            <v-btn
+                type="button"
+                @click="closeDialog"
             >
-                Время конца
-            </label>
-
-            <MinuteWithSecondInput
-                @input="onEndTimeInput"
-            />
-        </div>
-
-        <v-btn
-            type="button"
-            class="mr-3"
-            @click="onAdd"
-        >
-            Добавить
-        </v-btn>
-
-        <v-btn
-            type="button"
-            @click="closeDialog"
-        >
-            Отменить
-        </v-btn>
-    </v-form>
+                Отменить
+            </v-btn>
+        </v-card-actions>
+    </v-card>
 </template>
 
 <script
     lang="ts"
     setup
 >
-import { ref, computed, reactive } from 'vue'
+import { computed, reactive } from 'vue'
 import deepClone from 'deep-clone'
 import { required, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 import { getSecondFromMinuteAndSeconds } from '@/shared/utils/audio'
-import type { ElementTableView } from '@/interfaces'
+import type { ElementTableView, Jump, Track, Spin } from '@/interfaces'
 import { useTableElements } from '@/composables'
 
 interface Props {
-    selectedElementIndex: number;
+    selectedElement: Jump | Track | Spin;
 }
 
 interface ElementData {
@@ -80,8 +88,8 @@ const emits = defineEmits(['closeDialog', 'addElement'])
 
 const elements = useTableElements()
 
-const selectedElement = ref<ElementTableView | null>(elements.value[props.selectedElementIndex])
-const difficultLvlKeys = computed(() => selectedElement.value?.difficultLvls)
+const difficultLvl = computed(() => props.selectedElement.difficultLvls)
+const difficultLvlKeys = computed(() => Object.keys(difficultLvl.value))
 
 const elementData = reactive<ElementData>({
     startTime: '',
@@ -119,16 +127,18 @@ const v$ = useVuelidate(rules, elementData)
 
 const onAdd = () => {
     v$.value.$validate()
-    if (!v$.value.$error && selectedElement.value) {
-        const cloneElement = deepClone(selectedElement.value)
+    if (!v$.value.$error && props.selectedElement) {
+        const cloneElement = deepClone(props.selectedElement)
         const tableElement: ElementTableView = Object.assign(cloneElement, {
-            key: `${selectedElement.value.key}${elements.value.length}`,
-            fullname: `${elementData.lvlName}${selectedElement.value.name}`,
+            key: `${props.selectedElement.key}${elements.value.length}`,
+            fullname: `${elementData.lvlName}${props.selectedElement.name}`,
             lvlName: elementData.lvlName,
             timeExecute: `${elementData.startTime}-${elementData.endTime}`,
             isInIce: false,
             startTime: getSecondFromMinuteAndSeconds(elementData.startTime),
-            endTime: getSecondFromMinuteAndSeconds(elementData.endTime)
+            endTime: getSecondFromMinuteAndSeconds(elementData.endTime),
+            x: 50,
+            y: 50
         })
 
         // WARNING: Нужно быть уверенным, что элементы отфильтрованы по времени startTime,

@@ -2,8 +2,7 @@
     <div>
         <v-row>
             <v-col>
-                <ProgramName />
-                <RinkCanvas />
+                <ElementsScheme />
                 <ProgramPlayer
                     v-if="isFileLoad"
                 />
@@ -20,6 +19,7 @@
     lang="ts"
 >
 import ElementsDataTable from '@/widgets/ElementsDataTable/ui/ElementsDataTable.vue'
+import ElementsScheme from '@/widgets/ElementsScheme/ui/ElementsScheme.vue'
 
 definePageMeta({
     layout: 'default'

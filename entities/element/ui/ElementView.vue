@@ -1,7 +1,8 @@
 <template>
-    <v-btn
-        class="element rounded-circle"
-        :value="props.index"
+    <button
+        type="button"
+        :class="`element rounded-circle ${backgroundClass}`"
+        @click="onElementClick"
     >
         {{ props.name }}
         <v-tooltip
@@ -10,20 +11,32 @@
         >
             {{ title }}
         </v-tooltip>
-    </v-btn>
+    </button>
 </template>
 
 <script
     lang="ts"
     setup
 >
+import { computed } from 'vue'
+
 interface Props {
     name: string;
     title: string;
-    index: number;
+    type: 'jump' | 'track' | 'spin';
+    isActive: boolean;
 }
 
-const props = defineProps<Props>()
+const props = withDefaults((defineProps<Props>()), {
+    isActive: false
+})
+const emits = defineEmits(['elementClick'])
+
+const backgroundClass = computed(() => props.isActive ? `bg-${props.type}-element` : 'bg-element')
+
+const onElementClick = () => {
+    emits('elementClick')
+}
 </script>
 
 <style scoped>

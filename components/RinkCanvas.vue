@@ -265,7 +265,6 @@ onMounted(() => {
         return subject
     }
 
-    // eslint-disable-next-line
     d3.select(chartHtml)
         .on('mousemove', event => dragSubject({ sourceEvent: event }))
         .call(

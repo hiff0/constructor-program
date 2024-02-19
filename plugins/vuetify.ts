@@ -7,7 +7,11 @@ const customLightTheme: ThemeDefinition = {
     dark: false,
     colors: {
         link: '#D0D1D2',
-        'link-active': '#8C8F92'
+        'link-active': '#8C8F92',
+        element: '#A9A4A4',
+        'jump-element': '#FF0000',
+        'spin-element': '#336666',
+        'track-element': '#333399'
     }
     // variables: {
     // }
