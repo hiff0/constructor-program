@@ -82,7 +82,6 @@ export type ElementTableView = ElementView & {
     cpy?: number;
 
     isShow?: boolean;
-    isInIce: boolean;
 }
 
 // ---------------------------- Auth ------------------------------------

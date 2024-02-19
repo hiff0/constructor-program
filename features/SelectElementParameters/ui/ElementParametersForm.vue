@@ -134,7 +134,7 @@ const onAdd = () => {
             fullname: `${elementData.lvlName}${props.selectedElement.name}`,
             lvlName: elementData.lvlName,
             timeExecute: `${elementData.startTime}-${elementData.endTime}`,
-            isInIce: false,
+            isShow: true,
             startTime: getSecondFromMinuteAndSeconds(elementData.startTime),
             endTime: getSecondFromMinuteAndSeconds(elementData.endTime),
             x: 50,

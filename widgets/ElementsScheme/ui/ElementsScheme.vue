@@ -66,17 +66,16 @@ const elementRadius = ref<number>(20)
 const getQuadraticStepSequence = (elements: ElementTableView[]): StepSequencePos[] => {
     return elements.reduce((acc: StepSequencePos[], element, index, elementsOrigin) => {
         const nextElement = elementsOrigin[index + 1]
-        if (element.isInIce && element.isShow &&
+        if (element.isShow &&
             nextElement &&
-            nextElement.isInIce &&
             nextElement.isShow) {
-            const x0 = element.xCenter as number
-            const y0 = element.yCenter as number
+            const x0 = element.x as number
+            const y0 = element.y as number
 
             const startPos: StartPoint = { x0, y0 }
 
-            const x = nextElement.xCenter as number
-            const y = nextElement.yCenter as number
+            const x = nextElement.x as number
+            const y = nextElement.y as number
 
             const lineCenter = getLineCenter(x0, y0, x, y)
             const quadraticCurvePos: QuadraticCurvePos = {
@@ -205,8 +204,8 @@ onMounted(() => {
                                 currElement.x = subject[0]
                                 currElement.y = subject[1]
                             } else {
-                                currElement.x = subject[0]
-                                currElement.y = subject[1]
+                                currElement.cpx = subject[0]
+                                currElement.cpy = subject[1]
                             }
                         }
                     })
