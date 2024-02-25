@@ -3,9 +3,6 @@
         <v-row>
             <v-col>
                 <ElementsScheme />
-                <ProgramPlayer
-                    v-if="isFileLoad"
-                />
                 <AVWaveForm />
 
                 <ElementsDataTable />
@@ -24,7 +21,5 @@ import ElementsScheme from '@/widgets/ElementsScheme/ui/ElementsScheme.vue'
 definePageMeta({
     layout: 'default'
 })
-
-const isFileLoad = ref<boolean>(false)
 
 </script>

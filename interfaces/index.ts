@@ -82,6 +82,8 @@ export type ElementTableView = ElementView & {
     cpy?: number;
 
     isShow?: boolean;
+
+    bgClass: string;
 }
 
 // ---------------------------- Auth ------------------------------------

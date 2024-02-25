@@ -68,6 +68,7 @@
 
             <ElementParametersForm
                 :selected-element="selectedElement"
+                :tab="tab"
                 @close-dialog="onDialogClose"
                 @add-element="onDialogClose"
             />

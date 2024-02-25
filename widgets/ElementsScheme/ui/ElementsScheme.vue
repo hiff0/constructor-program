@@ -25,26 +25,34 @@
                 </g>
             </template>
 
-            <g
+            <template
                 v-for="(element, index) in elements"
                 :key="element.key"
-                :width="elementRadius"
-                :height="elementRadius"
-                :class="`u-element${index}`"
             >
-                <circle
-                    :cx="element.x"
-                    :cy="element.y"
-                    :r="elementRadius"
-                    stroke="none"
-                    fill="#e6c660"
-                />
-                <text :x="element.x" :y="element.y">{{ element.fullname }}</text>
-            </g>
+                <g
+                    v-if="element.isShow"
+                    :width="elementRadius"
+                    :height="elementRadius"
+                    :class="`u-element${index}`"
+                >
+                    <circle
+                        :cx="element.x"
+                        :cy="element.y"
+                        :r="elementRadius"
+                        stroke="none"
+                        fill="white"
+                    />
+                    <text
+                        :x="element.x"
+                        :y="element.y"
+                        dominant-baseline="middle"
+                        text-anchor="middle"
+                    >
+                        {{ element.fullname }}
+                    </text>
+                </g>
+            </template>
         </svg>
-        {{ points }}
-        <br>
-        {{ elementsCenterPoints }}
     </v-responsive>
 </template>
 

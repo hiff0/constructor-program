@@ -4,23 +4,18 @@
             :element="prevElement"
         />
 
-        <v-icon
-            icon="mdi-play"
-            title="Прерыдущий элемент"
-            size="x-large"
-            color="red"
-            tag="button"
-            class="ml-5"
-            style="transform: rotate(180deg)"
+        <NuxtImg
+            src="./img/prev.png"
+            alt="Предыдущий элемент"
+            class="mx-3 element_player_button"
             @click="onElementClick(prevElement)"
-        >
-        </v-icon>
+        />
 
         <PlayerElementView
             :element="currentElement"
         />
 
-        <v-icon
+        <!-- <v-icon
             icon="mdi-play"
             title="Следующий элемент"
             size="x-large"
@@ -29,7 +24,13 @@
             class="mr-5"
             @click="onElementClick(nextElement)"
         >
-        </v-icon>
+        </v-icon> -->
+        <NuxtImg
+            src="./img/next.png"
+            alt="Следующий элемент"
+            class="mx-3 element_player_button"
+            @click="onElementClick(nextElement)"
+        />
 
         <PlayerElementView
             :element="nextElement"
@@ -100,3 +101,9 @@ const onElementClick = (element: ElementTableView | ElementView) => {
     }
 }
 </script>
+
+<style scoped>
+.element_player_button {
+    cursor: pointer;
+}
+</style>

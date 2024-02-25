@@ -73,8 +73,11 @@ import { getSecondFromMinuteAndSeconds } from '@/shared/utils/audio'
 import type { ElementTableView, Jump, Track, Spin } from '@/interfaces'
 import { useTableElements } from '@/composables'
 
+type Tabs = 'jump' | 'track' | 'spin' | 'addition'
+
 interface Props {
     selectedElement: Jump | Track | Spin;
+    tab: Tabs;
 }
 
 interface ElementData {
@@ -138,7 +141,8 @@ const onAdd = () => {
             startTime: getSecondFromMinuteAndSeconds(elementData.startTime),
             endTime: getSecondFromMinuteAndSeconds(elementData.endTime),
             x: 50,
-            y: 50
+            y: 50,
+            bgClass: `bg-${props.tab}-element`
         })
 
         // WARNING: Нужно быть уверенным, что элементы отфильтрованы по времени startTime,

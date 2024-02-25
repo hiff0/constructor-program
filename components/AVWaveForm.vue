@@ -10,36 +10,36 @@
     </template>
     <div
         v-else
-        class="d-flex justify-center align-center mb-5"
+        class="d-flex flex-column justify-center align-center mb-5"
     >
-        <v-btn
-            @click="playAudio"
-        >
-            Play
-        </v-btn>
-        <v-btn
-            @click="stopAudio"
-        >
-            Stop
-        </v-btn>
-        <label for="constructorAudio" class="mr-3">
-            {{ audioMetaData.audioName }}
-        </label>
-        <audio
-            id="constructorAudio"
-            ref="audioRef"
-            controls
-            :src="audioMetaData.audioUrl"
-            @timeupdate="onTimeUpdate"
-        >
-            К сожалению, ваш браузер не поддерживает встроенное аудио
-        </audio>
-        <!-- <canvas
-            ref="canvasRef"
-            class="visual-canvas"
-            width="250"
-            height="80"
-        ></canvas> -->
+        <div>
+            <ProgramPlayer />
+        </div>
+
+        <div>
+            <v-btn
+                @click="playAudio"
+            >
+                Play
+            </v-btn>
+            <v-btn
+                @click="stopAudio"
+            >
+                Stop
+            </v-btn>
+            <label for="constructorAudio" class="mr-3">
+                {{ audioMetaData.audioName }}
+            </label>
+            <audio
+                id="constructorAudio"
+                ref="audioRef"
+                controls
+                :src="audioMetaData.audioUrl"
+                @timeupdate="onTimeUpdate"
+            >
+                К сожалению, ваш браузер не поддерживает встроенное аудио
+            </audio>
+        </div>
     </div>
 </template>
 
@@ -50,38 +50,9 @@
 
 const audioMetaData = useAudioMetaData()
 const audioRef = ref<HTMLMediaElement | null>(null)
-// const canvasRef = ref<HTMLCanvasElement | null>(null)
 
 const isFileLoad = ref<boolean>(false)
 const analyser = ref<AnalyserNode | null>(null)
-
-// const draw = () => {
-//     requestAnimationFrame(draw)
-
-//     if (analyser.value && canvasRef.value) {
-//         const bufferLength = analyser.value.frequencyBinCount
-//         const dataArr = new Uint8Array(bufferLength)
-//         analyser.value.getByteFrequencyData(dataArr)
-//         const canvas = canvasRef.value
-//         const ctx = canvas.getContext('2d')
-//         if (ctx) {
-//             ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-//             const barWidth = (canvas.width / bufferLength) * 2.5
-//             let barHeight
-//             let x = 0
-
-//             for (let i = 0; i < bufferLength; i++) {
-//                 barHeight = dataArr[i]
-
-//                 // Use 2D rendering context to draw a rectangle of height proportional to barHeight
-//                 ctx.fillStyle = 'rgb(' + Math.floor(barHeight + 100) + ',50,50)'
-//                 ctx.fillRect(x, canvas.height - barHeight / 2, barWidth, barHeight / 2)
-//                 x += barWidth + 1
-//             }
-//         }
-//     }
-// }
 
 const onFilePicked = (e: ChangeEvent) => {
     const files = e.target.files
