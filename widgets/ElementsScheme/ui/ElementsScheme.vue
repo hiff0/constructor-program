@@ -1,5 +1,5 @@
 <template>
-    <v-responsive :aspect-ratio="2 / 1" class="scheme_container mx-auto">
+    <v-responsive :aspect-ratio="2 / 1" class="scheme_container mx-auto mb-5">
         <svg
             ref="scheme"
             class="scheme"
@@ -23,6 +23,11 @@
                 >
                     <circle r="5" />
                 </g>
+                <!-- <path
+                    fill="orange"
+                    stroke="none"
+                    :d="`M${line.triangleCoord.triangleX} ${line.triangleCoord.triangleY} l 13 7 l -13 7 z`"
+                /> -->
             </template>
 
             <template
@@ -62,7 +67,7 @@
 >
 import * as d3 from 'd3'
 import { useTableElements } from '@/composables'
-import { getLineCenter, getQuadraticCurvePath } from '@/shared/utils/rinkCanvas'
+import { getLineCenter, getQuadraticCurvePath, getTriangleCoord } from '@/shared/utils/rinkCanvas'
 import type { StepSequencePos, StartPoint, QuadraticCurvePos, ElementTableView } from '@/interfaces'
 
 const elements = useTableElements()
@@ -86,18 +91,23 @@ const getQuadraticStepSequence = (elements: ElementTableView[]): StepSequencePos
             const y = nextElement.y as number
 
             const lineCenter = getLineCenter(x0, y0, x, y)
+            const cpx = nextElement.cpx || lineCenter.x
+            const cpy = nextElement.cpy || lineCenter.y
             const quadraticCurvePos: QuadraticCurvePos = {
-                cpx: nextElement.cpx || lineCenter.x,
-                cpy: nextElement.cpy || lineCenter.y,
+                cpx,
+                cpy,
                 x,
                 y
             }
+
+            const triangleCoord = getTriangleCoord(x, y, cpx, cpy, elementRadius.value)
 
             const stepSequencePos: StepSequencePos = {
                 startPos,
                 quadraticCurvePos,
                 toIndex: index + 1,
-                d: getQuadraticCurvePath(startPos, quadraticCurvePos).toString()
+                d: getQuadraticCurvePath(startPos, quadraticCurvePos).toString(),
+                triangleCoord
             }
 
             acc.push(stepSequencePos)
@@ -235,7 +245,7 @@ onMounted(() => {
 
 <style scoped>
 .scheme_container {
-    width: 65%;
+    width: 60%;
 }
 
 .scheme {

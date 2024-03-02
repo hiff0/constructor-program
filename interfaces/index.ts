@@ -55,11 +55,17 @@ export interface QuadraticCurvePos {
     y: number;
 }
 
+export interface TriangleCoord {
+    triangleX: number;
+    triangleY: number;
+}
+
 export interface StepSequencePos {
     startPos: StartPoint;
     quadraticCurvePos: QuadraticCurvePos;
     toIndex: number;
     d: string;
+    triangleCoord: TriangleCoord;
 }
 
 // ---------------------------- Element in Table and Canvas ------------------------------------

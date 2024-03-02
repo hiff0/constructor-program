@@ -18,8 +18,8 @@ const props = defineProps<Props>()
 
 <style scoped>
 .player_element {
-    width: 40px;
-    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;

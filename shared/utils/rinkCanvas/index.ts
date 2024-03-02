@@ -1,5 +1,5 @@
 import * as d3 from 'd3'
-import type { ElementTableView, QuadraticCurvePos, StartPoint, StepSequencePos } from '@/interfaces'
+import type { ElementTableView, QuadraticCurvePos, StartPoint, StepSequencePos, TriangleCoord } from '@/interfaces'
 
 export const getLineCenter = (x0: number, y0: number, x1: number, y1: number) => {
     return {
@@ -21,23 +21,43 @@ export const getQuadraticCurvePath = (startPos: StartPoint, quadraticPos: Quadra
 }
 
 /**
+ * Подсчитывает координаты соприкосновения окружности и треугольника, указывающего направление движения
+ * @param centerX - Координата x центра окружности
+ * @param centerY Координата y центра окружности
+ * @param cpx - Координата x линии изгиба у кривой Безье
+ * @param cpy - Координата y линии изгиба у кривой Безье
+ * @param raduis - Радиус коружности
+ * @returns Координаты соприкосновения окружности и треугольника
+ */
+export const getTriangleCoord = (centerX: number, centerY: number, cpx: number, cpy: number, raduis: number): TriangleCoord => {
+    const dX = centerX > cpx ? centerX - cpx : cpx - centerX
+    const dY = centerY > cpy ? centerY - cpy : cpy - centerY
+
+    const d = Math.sqrt(dX ** 2 + dY ** 2)
+
+    const triangleX = centerX - (raduis * (centerX - cpx)) / d
+    const triangleY = centerY - (raduis * (centerY - cpx)) / d
+    return { triangleX, triangleY }
+}
+
+/**
  * Обновляет позицию кривую Безье (дорожку шагов) и точку, контролирующую изгиб кривой
  * @param chart - Корневой svg элемент
  * @param index - Индекс элементов в массиве
  * @param startPos - Координаты начальной точки
  * @param quadraticPos - Координаты конечной точки и точки, контролирующей изгиб кривой
  */
-export const updateStepSequence = (chart: HTMLElement, index: number, startPos: StartPoint, quadraticPos: QuadraticCurvePos): [number, number, number] => {
-    d3.select(chart)
-        .select(`.u-path${index}`)
-        .attr('d', getQuadraticCurvePath(startPos, quadraticPos).toString())
+// export const updateStepSequence = (chart: HTMLElement, index: number, startPos: StartPoint, quadraticPos: QuadraticCurvePos): [number, number, number] => {
+//     d3.select(chart)
+//         .select(`.u-path${index}`)
+//         .attr('d', getQuadraticCurvePath(startPos, quadraticPos).toString())
 
-    d3.select(chart)
-        .select(`.u-point${index}`)
-        .attr('transform', `translate(${quadraticPos.cpx}, ${quadraticPos.cpy})`)
+//     d3.select(chart)
+//         .select(`.u-point${index}`)
+//         .attr('transform', `translate(${quadraticPos.cpx}, ${quadraticPos.cpy})`)
 
-    return [quadraticPos.cpx, quadraticPos.cpy, index]
-}
+//     return [quadraticPos.cpx, quadraticPos.cpy, index]
+// }
 
 /**
  * Обновляет положение всех кривых Безье (дорожек шагов) и задает drag-and-drop функцию для перемещения точки, контролирующей изгиб кривой

@@ -61,8 +61,14 @@
                     <td class="text-end" colspan="3">
                         Базовая стоимость
                     </td>
-                    <td class="text-center" colspan="3">
+                    <td class="text-center">
+                        {{ sumBaseCost }}
+                    </td>
+                    <td class="text-center">
                         Итоговая оценка
+                    </td>
+                    <td class="text-center">
+                        В разработке
                     </td>
                 </tr>
             </template>
@@ -86,6 +92,14 @@ import { useTableElements } from '@/composables'
 import type { ElementTableView, JumpsDifficultLvls, DefaultDifficultLvls } from '@/interfaces'
 
 const elements = useTableElements()
+
+const sumBaseCost = computed(() => elements.value.reduce((acc: number, element: ElementTableView) => {
+    const baseCost = element.difficultLvls[element.lvlName as keyof (JumpsDifficultLvls | DefaultDifficultLvls)]?.baseCost
+    if (baseCost) {
+        acc = parseFloat((acc + baseCost).toFixed(2))
+    }
+    return acc
+}, 0))
 
 const deleteElement = (element: ElementTableView) => {
     elements.value = elements.value.filter(el => el !== element)

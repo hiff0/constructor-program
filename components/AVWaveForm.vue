@@ -16,8 +16,8 @@
             <ProgramPlayer />
         </div>
 
-        <div>
-            <v-btn
+        <div class="d-flex align-center">
+            <!-- <v-btn
                 @click="playAudio"
             >
                 Play
@@ -26,7 +26,7 @@
                 @click="stopAudio"
             >
                 Stop
-            </v-btn>
+            </v-btn> -->
             <label for="constructorAudio" class="mr-3">
                 {{ audioMetaData.audioName }}
             </label>
