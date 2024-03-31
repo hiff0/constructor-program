@@ -26,7 +26,7 @@
 >
 
 interface Props {
-    image: string;
+    image?: string;
 }
 
 const props = defineProps<Props>()

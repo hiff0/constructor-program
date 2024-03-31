@@ -5,11 +5,20 @@ export default defineNuxtConfig({
         '@mdi/font/css/materialdesignicons.css'
     ],
 
+    nitro: {
+        plugins: ['~/server/index.ts']
+    },
+
+    runtimeConfig: {
+        authSecret: process.env.AUTH_SECRET
+    },
+
     imports: {
         dirs: [
             'feature/**',
             'entities/**',
-            'widgets/**'
+            'widgets/**',
+            'shared/**'
         ]
     },
 
@@ -22,8 +31,9 @@ export default defineNuxtConfig({
 
     modules: [
         '@nuxt/image',
-        '@nuxtjs/eslint-module'
-        // '@sidebase/nuxt-auth'
+        '@nuxtjs/eslint-module',
+        'nuxt-server-utils',
+        '@sidebase/nuxt-auth'
     ],
 
     build: {
@@ -31,18 +41,15 @@ export default defineNuxtConfig({
             'jsonwebtoken',
             'vuetify'
         ]
-    }
+    },
 
-    // auth: {
-    //     baseURL: 'api/auth',
-    //     provider: {
-    //         type: 'local',
-    //         pages: {
-    //             login: '/signin'
-    //         },
-    //         token: {
-    //             signInResponseTokenPointer: '/token/accessToken'
-    //         }
-    //     }
-    // }
+    nuxtServerUtils: {
+        mongodbUri: process.env.MONGODB_URI
+    },
+
+    auth: {
+        provider: {
+            type: 'authjs'
+        }
+    }
 })

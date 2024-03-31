@@ -1,0 +1,28 @@
+version: '3.8'
+
+volumes:
+  node_modules:
+  mongodb_data_container:
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.dev
+    ports:
+      - "3000:3000"
+      - "24678:24678"
+    depends_on:
+      - mongo
+    volumes:
+      - .:/src
+      - node_modules:/src/node_modules
+
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    restart: always
+    volumes:
+      - mongodb_data_container:/data/db

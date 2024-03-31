@@ -35,7 +35,7 @@
                 ref="audioRef"
                 controls
                 :src="audioMetaData.audioUrl"
-                @timeupdate="onTimeUpdate"
+                @timeupdate="onTimeUpdate($event)"
             >
                 К сожалению, ваш браузер не поддерживает встроенное аудио
             </audio>
@@ -80,8 +80,6 @@ const onFilePicked = (e: ChangeEvent) => {
                 audioMetaData.value.currentPlayerTime = audioRef.value.currentTime
                 audioMetaData.value.audioDom = audioRef.value
             }
-
-            // draw()
         }
 
         reader.readAsArrayBuffer(file)
@@ -106,7 +104,6 @@ const stopAudio = () => {
 
 const onTimeUpdate = (event: Event) => {
     audioMetaData.value.currentPlayerTime = event.target.currentTime
-    // draw()
 }
 
 </script>

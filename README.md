@@ -1,73 +1,22 @@
 # Интерактивный тренажер фигуриста  Конструктор соревновательных программ в сложнокоординационных видах спорта.  (Фигурное катание)
 
-## Setup
-
-Make sure to install the dependencies:
+## Локальный запуск проекта
 
 ```bash
 # npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+```bash
+docker-composer up -d
+```
 
 ```bash
 # npm
 npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
+После этого можно открыть проект локально на `http://localhost:3000`
 
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## О проекте
+Используется [Nuxt](https://nuxt.com/)  
+Также используется методология [FSD](https://feature-sliced.design/) (для общей структуры папок)

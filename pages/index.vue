@@ -9,8 +9,7 @@
     setup
 >
 definePageMeta({
-    layout: 'default'
+    layout: 'default',
+    middleware: 'auth'
 })
 </script>
-
-//TODO: перейти на FSD
