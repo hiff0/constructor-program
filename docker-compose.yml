@@ -1,22 +1,37 @@
 version: '3.8'
 
 services:
-#  app:
-#    build:
-#      context: .
-#    ports:
-#      - "3000:3000"
-#    depends_on:
-#      - mongo
+  app:
+    build: .
+    container_name: app
+    depends_on:
+      - mongo
+    ports:
+      - '3000:3000'
+      - '5454:5555'
+    command: sh -c "node .output/server/index.mjs"
+    environment:
+      - DATABASE_URL=mongodb://root:constructor@mongo:27017/сonstructor?authSource=admin
 
   mongo:
-    image: mongo:latest
-    container_name: mongodb
+    build: ./mongodb_replica
+    container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: constructor
+      MONGO_REPLICA_HOST: mongo
+      MONGO_REPLICA_PORT: 27017
+      MONGO_INITDB_DATABASE: constructor
     ports:
-      - 27017:27017
-    restart: always
-    volumes:
-      - mongodb_data_container:/data/db
+      - '27017:27017'
 
-volumes:
-  mongodb_data_container:
+  nginx:
+    image: nginx:1.24-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/ngix.conf
+      - ./logs:/var/log/nginx/
+    depends_on:
+      - app
