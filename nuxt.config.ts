@@ -9,16 +9,13 @@ export default defineNuxtConfig({
         plugins: ['~/server/index.ts']
     },
 
-    runtimeConfig: {
-        authSecret: process.env.AUTH_SECRET
-    },
-
     imports: {
         dirs: [
             'feature/**',
             'entities/**',
             'widgets/**',
-            'shared/**'
+            'shared/**',
+            'types/**'
         ]
     },
 
@@ -31,9 +28,7 @@ export default defineNuxtConfig({
 
     modules: [
         '@nuxt/image',
-        '@nuxtjs/eslint-module',
-        'nuxt-server-utils',
-        '@sidebase/nuxt-auth'
+        '@nuxtjs/eslint-module'
     ],
 
     build: {
@@ -41,15 +36,16 @@ export default defineNuxtConfig({
             'jsonwebtoken',
             'vuetify'
         ]
-    },
-
-    nuxtServerUtils: {
-        mongodbUri: process.env.MONGODB_URI
-    },
-
-    auth: {
-        provider: {
-            type: 'authjs'
-        }
     }
+
+    // nuxtServerUtils: {
+    //     mongodbUri: process.env.MONGODB_URI
+    // },
+    //
+    // auth: {
+    //     provider: {
+    //         type: 'authjs'
+    //     },
+    //     baseURL: process.env.AUTH_ORIGIN
+    // }
 })

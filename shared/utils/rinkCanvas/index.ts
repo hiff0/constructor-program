@@ -1,5 +1,5 @@
 import * as d3 from 'd3'
-import type { ElementTableView, QuadraticCurvePos, StartPoint, StepSequencePos, TriangleCoord } from '@/interfaces'
+import type { QuadraticCurvePos, StartPoint, TriangleCoord } from '@/interfaces'
 
 export const getLineCenter = (x0: number, y0: number, x1: number, y1: number) => {
     return {
@@ -64,74 +64,74 @@ export const getTriangleCoord = (centerX: number, centerY: number, cpx: number, 
  * @param chart
  * @param quadraticStepSequence
  */
-export const draggable = (chart: HTMLElement, quadraticStepSequence: StepSequencePos[], elements: Ref<ElementTableView[]>) => {
-    if (quadraticStepSequence.length === 0) {
-        return
-    }
-
-    const points: number[][] = []
-
-    quadraticStepSequence.forEach((element) => {
-        const elPoints = [element.quadraticCurvePos.cpx, element.quadraticCurvePos.cpy, element.toIndex] as [number, number, number]
-        points.push(elPoints)
-    })
-
-    const dist = (p: [number, number], m: [number, number, number]) => {
-        return Math.sqrt((p[0] - m[0]) ** 2 + (p[1] - m[1]) ** 2)
-    }
-
-    let subject: number[] | null | undefined
-    let dx: number
-    let dy: number
-    let currentIndex: number
-
-    function dragSubject (event: { sourceEvent: MouseEvent }) {
-        const p = d3.pointer(event.sourceEvent, chart)
-        subject = d3.least(points, (a, b) => dist(p, a) - dist(p, b))
-        if (subject && dist(p, subject) > 10) {
-            subject = null
-        }
-
-        console.log('subject: ', subject)
-
-        if (subject) {
-            currentIndex = subject[2]
-
-            d3.select(chart)
-                .style('cursor', 'hand')
-                .style('cursor', 'grab')
-        } else {
-            d3.select(chart).style('cursor', null)
-        }
-        return subject
-    }
-
-    d3.select(chart)
-        .on('mousemove', event => dragSubject({ sourceEvent: event }))
-        .call(
-            d3.drag()
-                .subject(dragSubject)
-                .on('start', (event) => {
-                    if (subject) {
-                        d3.select(chart).style('cursor', 'grabbing')
-                        dx = subject[0] - event.x
-                        dy = subject[1] - event.y
-                    }
-                })
-                .on('drag', (event) => {
-                    if (subject) {
-                        console.log('subject drag: ', subject)
-                        subject[0] = event.x + dx
-                        subject[1] = event.y + dy
-                        elements.value[currentIndex].cpx = subject[0]
-                        elements.value[currentIndex].cpy = subject[1]
-                    }
-                })
-                .on('end', () => {
-                    d3.select(chart).style('cursor', 'grab')
-                })
-                // .on('start.render drag.render end.render', () =>
-                //     updateStepSequence(chart, currentIndex, quadraticStepSequence[currentIndex].startPos, quadraticStepSequence[currentIndex].quadraticCurvePos)
-                // )
-        )
-}
+// export const draggable = (chart: HTMLElement, quadraticStepSequence: StepSequencePos[], elements: Ref<ElementTableView[]>) => {
+//     if (quadraticStepSequence.length === 0) {
+//         return
+//     }
+//
+//     const points: number[][] = []
+//
+//     quadraticStepSequence.forEach((element) => {
+//         const elPoints = [element.quadraticCurvePos.cpx, element.quadraticCurvePos.cpy, element.toIndex] as [number, number, number]
+//         points.push(elPoints)
+//     })
+//
+//     const dist = (p: [number, number], m: [number, number, number]) => {
+//         return Math.sqrt((p[0] - m[0]) ** 2 + (p[1] - m[1]) ** 2)
+//     }
+//
+//     let subject: number[] | null | undefined
+//     let dx: number
+//     let dy: number
+//     let currentIndex: number
+//
+//     function dragSubject (event: { sourceEvent: MouseEvent }) {
+//         const p = d3.pointer(event.sourceEvent, chart)
+//         subject = d3.least(points, (a, b) => dist(p, a) - dist(p, b))
+//         if (subject && dist(p, subject) > 10) {
+//             subject = null
+//         }
+//
+//         console.log('subject: ', subject)
+//
+//         if (subject) {
+//             currentIndex = subject[2]
+//
+//             d3.select(chart)
+//                 .style('cursor', 'hand')
+//                 .style('cursor', 'grab')
+//         } else {
+//             d3.select(chart).style('cursor', null)
+//         }
+//         return subject
+//     }
+//
+//     d3.select(chart)
+//         .on('mousemove', event => dragSubject({ sourceEvent: event }))
+//         .call(
+//             d3.drag()
+//                 .subject(dragSubject)
+//                 .on('start', (event) => {
+//                     if (subject) {
+//                         d3.select(chart).style('cursor', 'grabbing')
+//                         dx = subject[0] - event.x
+//                         dy = subject[1] - event.y
+//                     }
+//                 })
+//                 .on('drag', (event) => {
+//                     if (subject) {
+//                         console.log('subject drag: ', subject)
+//                         subject[0] = event.x + dx
+//                         subject[1] = event.y + dy
+//                         elements.value[currentIndex].cpx = subject[0]
+//                         elements.value[currentIndex].cpy = subject[1]
+//                     }
+//                 })
+//                 .on('end', () => {
+//                     d3.select(chart).style('cursor', 'grab')
+//                 })
+//                 // .on('start.render drag.render end.render', () =>
+//                 //     updateStepSequence(chart, currentIndex, quadraticStepSequence[currentIndex].startPos, quadraticStepSequence[currentIndex].quadraticCurvePos)
+//                 // )
+//         )
+// }
