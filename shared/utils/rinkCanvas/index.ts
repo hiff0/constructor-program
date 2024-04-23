@@ -14,9 +14,46 @@ export const getLineCenter = (x0: number, y0: number, x1: number, y1: number) =>
  * @param quadraticPos - Координаты конечной точки и точки изгиба
  */
 export const getQuadraticCurvePath = (startPos: StartPoint, quadraticPos: QuadraticCurvePos): d3.Path => {
+    // const fromLeftToRight = (quadraticPos.x - startPos.x0) > 0
+    // const fromTopToBottom = (quadraticPos.y - startPos.y0) > 0
+    // console.log('quadraticPos.x: ', quadraticPos.x)
+    // console.log('quadraticPos.y: ', quadraticPos.y)
+    const endX = quadraticPos.x
+    const endY = quadraticPos.y
+    // if (fromLeftToRight && fromTopToBottom) {
+    //     endX -= 45
+    //     endY -= 45
+    // } else if (fromLeftToRight && !fromTopToBottom) {
+    //     endX -= 45
+    //     endY += 45
+    // } else if (!fromLeftToRight && fromTopToBottom) {
+    //     endX += 45
+    //     endY -= 45
+    // } else {
+    //     endX += 45
+    //     endY += 45
+    // }
+    // console.log('endX: ', endX)
+    // console.log('endY: ', endY)
     const path = d3.path()
     path.moveTo(startPos.x0, startPos.y0)
     path.quadraticCurveTo(quadraticPos.cpx, quadraticPos.cpy, quadraticPos.x, quadraticPos.y)
+
+    // Вычисляем угол между конечной точкой и точкой управления
+    const angle = Math.atan2(quadraticPos.cpy - endY, quadraticPos.cpx - endX)
+
+    // Вычисляем координаты точек равнобедренного треугольника
+    const triangleLength = 10 // Вы можете изменить это значение в соответствии с вашими потребностями
+    const point1X = endX + triangleLength * Math.cos(angle - Math.PI / 6)
+    const point1Y = endY + triangleLength * Math.sin(angle - Math.PI / 6)
+    const point2X = endX + triangleLength * Math.cos(angle + Math.PI / 6)
+    const point2Y = endY + triangleLength * Math.sin(angle + Math.PI / 6)
+
+    // Рисуем равнобедренный треугольник
+    path.moveTo(endX, endY)
+    path.lineTo(point1X, point1Y)
+    path.lineTo(point2X, point2Y)
+    path.closePath()
     return path
 }
 

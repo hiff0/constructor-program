@@ -15,12 +15,6 @@
                     Базовая стоимость
                 </th>
                 <th class="text-center font-weight-bold">
-                    Оценка исполнения
-                </th>
-                <th class="text-center font-weight-bold">
-                    Оценка за элемент
-                </th>
-                <th class="text-center font-weight-bold">
                     Действия
                 </th>
             </tr>
@@ -46,11 +40,7 @@
                         {{ element.difficultLvls[element.lvlName as keyof (JumpsDifficultLvls | DefaultDifficultLvls)]?.baseCost }}
                     </td>
                     <td>
-                    </td>
-                    <td>
-                    </td>
-                    <td>
-                        <div class="activities rounded-pill h-75 d-flex align-center px-2">
+                        <div class="activities rounded-pill h-75 d-flex justify-center align-center">
                             <v-icon icon="mdi-comment-text-outline" class="mr-3 action"></v-icon>
                             <v-icon icon="mdi-pencil-outline" class="mr-3 action"></v-icon>
                             <v-icon icon="mdi-trash-can-outline" class="action" @click="deleteElement(element)"></v-icon>
@@ -63,12 +53,6 @@
                     </td>
                     <td class="text-center">
                         {{ sumBaseCost }}
-                    </td>
-                    <td class="text-center">
-                        Итоговая оценка
-                    </td>
-                    <td class="text-center">
-                        В разработке
                     </td>
                 </tr>
             </template>
