@@ -5,10 +5,6 @@ export default defineNuxtConfig({
         '@mdi/font/css/materialdesignicons.css'
     ],
 
-    nitro: {
-        plugins: ['~/server/index.ts']
-    },
-
     imports: {
         dirs: [
             'feature/**',
@@ -33,19 +29,8 @@ export default defineNuxtConfig({
 
     build: {
         transpile: [
-            'jsonwebtoken',
             'vuetify'
         ]
-    }
+    },
 
-    // nuxtServerUtils: {
-    //     mongodbUri: process.env.MONGODB_URI
-    // },
-    //
-    // auth: {
-    //     provider: {
-    //         type: 'authjs'
-    //     },
-    //     baseURL: process.env.AUTH_ORIGIN
-    // }
 })

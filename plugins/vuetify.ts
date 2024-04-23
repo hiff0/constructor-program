@@ -13,8 +13,6 @@ const customLightTheme: ThemeDefinition = {
         'spin-element': '#336666',
         'track-element': '#333399'
     }
-    // variables: {
-    // }
 }
 
 export default defineNuxtPlugin((nuxtApp) => {
