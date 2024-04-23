@@ -7,7 +7,7 @@
 
                 <v-text-field v-model="password" label="Пароль" type="password"></v-text-field>
 
-                <v-btn type="submit" color="primary" block class="mt-2" @click="signIn">
+                <v-btn type="button" color="primary" block class="mt-2" @click="signIn">
                     Зарегистрироваться
                 </v-btn>
             </v-form>
@@ -36,7 +36,11 @@ const signIn = async () => {
         isLoading.value = true
         await useFetch('/api/auth/signIn', {
             method: 'POST',
-            body: { login, password }
+            body: { login: login.value, password: password.value }
+        })
+
+        await useRouter().push({
+            name: 'login'
         })
     } catch (e) {
         console.log('Create user error: ', e)

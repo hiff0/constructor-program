@@ -1,20 +1,27 @@
-ARG NODE_VERSION=18
+# Use the official Node.js v16 image as the base
+FROM node:18
 
-FROM node:${NODE_VERSION}-slim as base
+# Set the working directory
+WORKDIR /app
 
-ENV NODE_ENV=development
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
 
-WORKDIR /src
-
-# Build
-FROM base as build
-
-COPY --link package.json package-lock.json ./
+# Install dependencies
 RUN npm install
 
-# Run
-FROM base
+# Copy the rest of the application code to the working directory
+COPY . .
 
-COPY --from=build /src/node_modules /src/node_modules
+# Generate the Prisma client
+RUN npx prisma generate
 
-CMD [ "npm", "run", "dev" ]
+# Apply database migrations
+RUN chmod 400 keyfile
+# RUN npx prisma db push
+
+# Expose port 3000
+EXPOSE 3000
+
+# Start the application
+CMD ["npm", "run", "dev"]

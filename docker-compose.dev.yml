@@ -1,28 +1,48 @@
 version: '3.8'
 
-volumes:
-  node_modules:
-  mongodb_data_container:
-
 services:
   app:
     build:
       context: .
-      dockerfile: ./Dockerfile.dev
-    ports:
-      - "3000:3000"
-      - "24678:24678"
+      dockerfile: Dockerfile.dev
+    container_name: app
     depends_on:
       - mongo
+    ports:
+      - '3000:3000'
+      - '5454:5555'
+    command: sh -c "npm run dev"
+    environment:
+      - DATABASE_URL=mongodb://root:constructor@mongo:27017/сonstructor?authSource=admin
     volumes:
-      - .:/src
-      - node_modules:/src/node_modules
+      - ./:/app
 
   mongo:
-    image: mongo:latest
-    container_name: mongodb
-    ports:
-      - 27017:27017
+    build: ./mongodb_replica
     restart: always
+    container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: constructor
+      MONGO_REPLICA_HOST: mongo
+      MONGO_REPLICA_PORT: 27017
+      MONGO_INITDB_DATABASE: constructor
+    ports:
+      - "27017:27017"
     volumes:
-      - mongodb_data_container:/data/db
+      - mongodb_data:/data/db
+
+  nginx:
+    image: nginx:1.24-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/ngix.conf
+      - ./logs:/var/log/nginx/
+    depends_on:
+      - app
+
+volumes:
+  mongodb_data:
+    driver: local
