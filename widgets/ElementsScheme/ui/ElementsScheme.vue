@@ -5,6 +5,24 @@
             class="scheme"
             xmlns="http://www.w3.org/2000/svg"
         >
+            <defs>
+                <marker
+                    id="triangle"
+                    viewBox="0 0 10 10"
+                    refX="3"
+                    refY="-6"
+                    markerUnits="strokeWidth"
+                    markerWidth="10"
+                    markerHeight="10"
+                    orient="auto"
+                >
+                    <path
+                        d="M 0 6 L 3 0 L 6 6 z"
+                        fill="orange"
+                        translate="rotate(90)"
+                    />
+                </marker>
+            </defs>
             <template
                 v-for="(line, index) in quadraticStepSequence"
                 :key="index"
@@ -16,6 +34,7 @@
                     stroke-dasharray="10 10"
                     :d="line.d"
                     :class="`u-path${index}`"
+                    marker-end="url(#triangle)"
                 />
                 <g
                     :transform="`translate(${line.quadraticCurvePos.cpx}, ${line.quadraticCurvePos.cpy})`"
@@ -23,11 +42,6 @@
                 >
                     <circle r="5" />
                 </g>
-                <!-- <path
-                    fill="orange"
-                    stroke="none"
-                    :d="`M${line.triangleCoord.triangleX} ${line.triangleCoord.triangleY} l 13 7 l -13 7 z`"
-                /> -->
             </template>
 
             <template
