@@ -78,8 +78,8 @@
     setup
 >
 import * as d3 from 'd3'
-import { getLineCenter, getQuadraticCurvePath } from '@/shared/utils/rinkCanvas'
-import type { StepSequencePos, StartPoint, QuadraticCurvePos, ElementTableView } from '@/interfaces'
+import { getLineCenter, getQuadraticCurvePath } from '@shared/utils/rinkCanvas'
+import type { StepSequencePos, StartPoint, QuadraticCurvePos, ElementTableView } from '@interfaces'
 
 const elementWidth = 45
 const elementHeight = 45

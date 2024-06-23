@@ -1,4 +1,4 @@
-import type { ElementTableView, StepSequencePos, AudioMetaData } from '@/interfaces'
+import type { ElementTableView, StepSequencePos, AudioMetaData } from '@interfaces'
 
 const elements: ElementTableView[] = []
 const currentDraggableElement: HTMLElement | null = null

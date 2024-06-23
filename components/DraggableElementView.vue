@@ -12,8 +12,8 @@
     setup
     lang="ts"
 >
-import type { ElementTableView } from '@/interfaces'
-import { useAudioMetaData, useCurrentDraggableElement } from '@/composables'
+import type { ElementTableView } from '@interfaces'
+import { useAudioMetaData, useCurrentDraggableElement } from '@composables'
 
 interface Props {
     element: ElementTableView;

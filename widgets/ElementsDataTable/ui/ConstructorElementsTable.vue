@@ -72,8 +72,8 @@
     lang="ts"
     setup
 >
-import { useTableElements } from '@/composables'
-import type { ElementTableView, JumpsDifficultLvls, DefaultDifficultLvls } from '@/interfaces'
+import { useTableElements } from '@composables'
+import type { ElementTableView, JumpsDifficultLvls, DefaultDifficultLvls } from '@interfaces'
 
 const elements = useTableElements()
 

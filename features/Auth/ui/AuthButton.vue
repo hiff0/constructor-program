@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 const emits = defineEmits(['authClick'])
-
+// TODO: МБ выпилить
 const onAuthClick = () => {
     emits('authClick')
 }

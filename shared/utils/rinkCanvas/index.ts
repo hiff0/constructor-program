@@ -1,5 +1,5 @@
 import * as d3 from 'd3'
-import type { QuadraticCurvePos, StartPoint, TriangleCoord } from '@/interfaces'
+import type { QuadraticCurvePos, StartPoint, TriangleCoord } from '@interfaces'
 
 export const getLineCenter = (x0: number, y0: number, x1: number, y1: number) => {
     return {

@@ -25,9 +25,9 @@
     setup
     lang="ts"
 >
-import ElementsDataTable from '~/widgets/ElementsDataTable/ui/ConstructorElementsDataTable.vue'
-import ElementsScheme from '@/widgets/ElementsScheme/ui/ElementsScheme.vue'
-import SaveTrainigButton from '@/features/SaveTraining/SaveTrainigButton.vue';
+import ElementsDataTable from '@widgets/ElementsDataTable/ui/ConstructorElementsDataTable.vue'
+import ElementsScheme from '@widgets/ElementsScheme/ui/ElementsScheme.vue'
+import SaveTrainigButton from '@features/SaveTraining/SaveTrainigButton.vue'
 
 definePageMeta({
     layout: 'default'

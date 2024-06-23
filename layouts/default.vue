@@ -24,8 +24,8 @@
     lang="ts"
     setup
 >
-import NavDrawer from '@/widgets/NavDrawer/ui/NavDrawer.vue'
-import AuthButtonsGroup from '@/features/Auth/ui/AuthButtonsGroup.vue';
+import NavDrawer from '@widgets/NavDrawer/ui/NavDrawer.vue'
+import AuthButtonsGroup from '@features/Auth/ui/AuthButtonsGroup.vue';
 
 const drawer = ref(false)
 </script>

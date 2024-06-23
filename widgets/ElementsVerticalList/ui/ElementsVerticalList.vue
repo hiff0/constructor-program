@@ -18,8 +18,8 @@
     lang="ts"
     setup
 >
-import ElementView from '@/entities/element/ui/ElementView'
-import type { Jump, Track, Spin } from '@/interfaces'
+import ElementView from '@entities/element/ui/ElementView'
+import type { Jump, Track, Spin } from '@interfaces'
 
 interface Props {
     elements: Array<Jump | Track | Spin>;

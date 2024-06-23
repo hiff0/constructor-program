@@ -12,7 +12,7 @@
         <v-card class="mx-auto">
             <v-form fast-fail>
                 <h2>Вход</h2>
-                <v-text-field v-model="login" label="Логин"></v-text-field>
+                <v-text-field v-model="email" label="Почта"></v-text-field>
 
                 <v-text-field v-model="password" label="Пароль" type="password"></v-text-field>
                 <a href="#" class="text-body-2 font-weight-regular">Забыли пароль?</a>
@@ -37,10 +37,12 @@
     setup
     lang="ts"
 >
-const login = ref<string>('')
+import { useUserApi } from '@entities/user/api'
+
+const email = ref<string>('')
 const password = ref<string>('')
 const isOpen = ref<boolean>(false)
-
+const userApi = useUserApi()
 // const { signIn } = useAuth()
 
 const onLoginClick = () => {
@@ -48,15 +50,11 @@ const onLoginClick = () => {
 }
 
 const logIn = async () => {
-    console.log('login')
-    // try {
-    //     const res = await signIn('credentials', {
-    //         login: login.value,
-    //         password: password.value
-    //     })
-    //     console.log('respons: ', res)
-    // } catch (e) {
-    //     console.log('error: ', e)
-    // }
+    const user = await userApi.signIn({
+        email: email.value,
+        password: password.value
+    })
+    isOpen.value = false
+    console.log('user: ', user)
 }
 </script>

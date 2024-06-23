@@ -81,10 +81,10 @@
     setup
 >
 import { ref } from 'vue'
-import ElementsVerticalList from '@/widgets/ElementsVerticalList/ui/ElementsVerticalList'
-import ElementParametersForm from '@/features/SelectElementParameters/ui/ElementParametersForm'
-import { useJumps, useSpins, useTracks } from '@/composables'
-import type { Jump, Track, Spin } from '@/interfaces'
+import ElementsVerticalList from '@widgets/ElementsVerticalList/ui/ElementsVerticalList'
+import ElementParametersForm from '@features/SelectElementParameters/ui/ElementParametersForm'
+import { useJumps, useSpins, useTracks } from '@composables'
+import type { Jump, Track, Spin } from '@interfaces'
 
 declare function statusHandler(value: never): never
 

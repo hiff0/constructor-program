@@ -42,7 +42,7 @@
     setup
     lang="ts"
 >
-import type { ElementTableView, ElementView } from '@/interfaces'
+import type { ElementTableView, ElementView } from '@interfaces'
 
 const emptyElemment: ElementView = {
     fullname: '',

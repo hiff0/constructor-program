@@ -99,8 +99,8 @@
 import deepClone from 'deep-clone'
 import { required, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
-import { getSecondFromMinuteAndSeconds } from '@/shared/utils/audio'
-import type { ElementTableView } from '@/interfaces'
+import { getSecondFromMinuteAndSeconds } from '@shared/utils/audio'
+import type { ElementTableView } from '@interfaces'
 
 interface ElementData {
     startTime: string;

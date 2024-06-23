@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ElementTableView } from '@/interfaces'
+import type { ElementTableView } from '@interfaces'
 
 interface Props {
     element: ElementTableView

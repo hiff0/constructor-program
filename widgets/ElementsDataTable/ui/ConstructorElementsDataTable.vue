@@ -36,9 +36,9 @@
     setup
     lang="ts"
 >
-import AddElementsCard from '@/widgets/AddElementCard/ui/AddElementCard'
-import AddElementButton from '@/features/AddElement/ui/AddElementButton'
-import ElementsTable from '~/widgets/ElementsDataTable/ui/ConstructorElementsTable.vue'
+import AddElementsCard from '@widgets/AddElementCard/ui/AddElementCard'
+import AddElementButton from '@features/AddElement/ui/AddElementButton'
+import ElementsTable from '@widgets/ElementsDataTable/ui/ConstructorElementsTable.vue'
 
 const addDialog = ref(false)
 const noAudioDialog = ref<boolean>(false)

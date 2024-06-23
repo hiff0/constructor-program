@@ -1,5 +1,5 @@
-export { useElements, useTracks, useJumps, useSpins } from '@/composables/stores/elements'
-export { useUserAuth } from '@/composables/autherization'
+export { useElements, useTracks, useJumps, useSpins } from '@composables/stores/elements'
+export { useUserAuth } from '@composables/autherization'
 export {
     useTableElements,
     useCurrentDraggableElement,
@@ -8,5 +8,5 @@ export {
     useAudioMetaData,
     useLastElementStartTime,
     useProgramName
-} from '@/composables/constructor'
-export { useCurrentPlayerTime } from '@/composables/player'
+} from '@composables/constructor'
+export { useCurrentPlayerTime } from '@composables/player'

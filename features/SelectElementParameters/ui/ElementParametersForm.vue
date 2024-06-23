@@ -69,9 +69,9 @@ import { computed, reactive } from 'vue'
 import deepClone from 'deep-clone'
 import { required, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
-import { getSecondFromMinuteAndSeconds } from '@/shared/utils/audio'
-import type { ElementTableView, Jump, Track, Spin } from '@/interfaces'
-import { useTableElements } from '@/composables'
+import { getSecondFromMinuteAndSeconds } from '@shared/utils/audio'
+import type { ElementTableView, Jump, Track, Spin } from '@interfaces'
+import { useTableElements } from '@composables'
 
 type Tabs = 'jump' | 'track' | 'spin' | 'addition'
 
