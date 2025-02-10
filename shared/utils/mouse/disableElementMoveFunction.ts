@@ -4,9 +4,9 @@
  * @param element - Перемещаемый HTML элемент
  */
 export const disableElementMoveFunction = (parentElement: HTMLElement, element: HTMLElement) => {
-    parentElement.onmousemove = null
+  parentElement.onmousemove = null
 
-    element.onmousedown = null
-    element.draggable = false
-    element.style.cursor = 'default'
+  element.onmousedown = null
+  element.draggable = false
+  element.style.cursor = 'default'
 }

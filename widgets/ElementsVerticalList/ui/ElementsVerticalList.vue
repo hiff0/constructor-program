@@ -1,17 +1,17 @@
 <template>
-    <div
-        class="elements_list d-flex flex-column flex-wrap"
-    >
-        <ElementView
-            v-for="(element, index) in props.elements"
-            :key="element.key"
-            :name="element.name"
-            :title="element.title"
-            :type="props.type"
-            :is-active="isActiveElement(index)"
-            @element-click="onElementClick(index)"
-        />
-    </div>
+  <div
+    class="elements_list d-flex flex-column flex-wrap"
+  >
+    <ElementView
+      v-for="(element, index) in props.elements"
+      :key="element.key"
+      :name="element.name"
+      :title="element.title"
+      :type="props.type"
+      :is-active="isActiveElement(index)"
+      @element-click="onElementClick(index)"
+    />
+  </div>
 </template>
 
 <script
@@ -35,8 +35,8 @@ const activeIndex = ref(0)
 const isActiveElement = (index: number) => activeIndex.value === index
 
 const onElementClick = (index: number) => {
-    activeIndex.value = index
-    emits('elementClick', index)
+  activeIndex.value = index
+  emits('elementClick', index)
 }
 
 </script>

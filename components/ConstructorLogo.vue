@@ -1,10 +1,10 @@
 <template>
-    <NuxtImg
-        src="/img/logo.png"
-        alt="Лого"
-        sizes="xs:20vw sm:15vw lg:10vw xl:7vw"
-        :class="{ 'logo_spaser': props.rightMargin }"
-    />
+  <NuxtImg
+    src="/img/logo.png"
+    alt="Лого"
+    sizes="xs:20vw sm:15vw lg:10vw xl:7vw"
+    :class="{ 'logo_spaser': props.rightMargin }"
+  />
 </template>
 
 <script
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    rightMargin: false
+  rightMargin: false
 })
 </script>
 

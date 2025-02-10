@@ -1,7 +1,7 @@
 <template>
-    <div>
-        Контрольный прокат
-    </div>
+  <div>
+    Контрольный прокат
+  </div>
 </template>
 
 <script
@@ -9,7 +9,7 @@
     setup
 >
 definePageMeta({
-    layout: 'default'
+  layout: 'default'
 })
 </script>
 

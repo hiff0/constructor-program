@@ -108,3 +108,11 @@ export interface AudioMetaData {
     audioDom: HTMLMediaElement;
     audioAnalyser: AnalyserNode;
 }
+
+// ---------------------------- Program ------------------------------------
+export interface Program {
+    audioMetaData: AudioMetaData;
+    programName: string;
+    elements: ElementTableView[];
+    stepSequence: StepSequencePos[];
+}

@@ -1,7 +1,7 @@
 <template>
-    <div>
-        Главная
-    </div>
+  <div>
+    Главная
+  </div>
 </template>
 
 <script
@@ -9,6 +9,6 @@
     setup
 >
 definePageMeta({
-    layout: 'default'
+  layout: 'default'
 })
 </script>

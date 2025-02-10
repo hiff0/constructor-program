@@ -1,11 +1,11 @@
 <template>
-    <div
-        ref="draggableElement"
-        class="element d-flex justify-center align-center"
-        draggable="true"
-    >
-        {{ props.element.fullname }}
-    </div>
+  <div
+    ref="draggableElement"
+    class="element d-flex justify-center align-center"
+    draggable="true"
+  >
+    {{ props.element.fullname }}
+  </div>
 </template>
 
 <script
@@ -26,16 +26,16 @@ const draggableElement = ref<HTMLDivElement | null>(null)
 const audioMetaData = useAudioMetaData()
 
 onMounted(() => {
-    const elementDom = draggableElement.value as HTMLElement
-    elementDom.ondragstart = (event) => {
-        currentDraggableElement.value = draggableElement.value
+  const elementDom = draggableElement.value as HTMLElement
+  elementDom.ondragstart = (event) => {
+    currentDraggableElement.value = draggableElement.value
 
-        audioMetaData.value.audioDom.currentTime = props.element.startTime
+    audioMetaData.value.audioDom.currentTime = props.element.startTime
 
-        event.dataTransfer?.setData('mouseClickOffsetX', event.offsetX.toString())
-        event.dataTransfer?.setData('mouseClickOffsetY', event.offsetY.toString())
-        event.dataTransfer?.setData('elementIndex', props.elementIndex.toString())
-    }
+    event.dataTransfer?.setData('mouseClickOffsetX', event.offsetX.toString())
+    event.dataTransfer?.setData('mouseClickOffsetY', event.offsetY.toString())
+    event.dataTransfer?.setData('elementIndex', props.elementIndex.toString())
+  }
 })
 </script>
 

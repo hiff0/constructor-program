@@ -1,11 +1,11 @@
 <template>
-    <template v-if="!isAuth">
-        <LoginDialog />
-        /
-        <SignupDialog />
-    </template>
+  <template v-if="!isAuth">
+    <LoginDialog />
+    /
+    <SignupDialog />
+  </template>
 
-    <UserAvatar v-else />
+  <UserAvatar v-else />
 </template>
 
 <script setup lang="ts">

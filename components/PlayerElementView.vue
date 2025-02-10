@@ -1,9 +1,9 @@
 <template>
-    <div
-        class="player_element"
-    >
-        {{ props.element.fullname }}
-    </div>
+  <div
+    class="player_element"
+  >
+    {{ props.element.fullname }}
+  </div>
 </template>
 
 <script setup lang="ts">

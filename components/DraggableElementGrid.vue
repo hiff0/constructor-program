@@ -1,30 +1,30 @@
 <template>
+  <div
+    class="draggable_grid"
+  >
     <div
-        class="draggable_grid"
+      v-if="elements.length"
+      class="d-flex flew-wrap draggable_grid_element"
     >
-        <div
-            v-if="elements.length"
-            class="d-flex flew-wrap draggable_grid_element"
-        >
-            <template
-                v-for="(element, index) in elements"
-                :key="element.key"
-            >
-                <DraggableElementView
-                    v-if="!element.isInIce"
-                    :element-index="index"
-                    :element="element"
-                />
-            </template>
-        </div>
-
-        <div
-            v-else
-            class="h-100 d-flex justify-center align-center"
-        >
-            Добавьте элементы справа
-        </div>
+      <template
+        v-for="(element, index) in elements"
+        :key="element.key"
+      >
+        <DraggableElementView
+          v-if="!element.isInIce"
+          :element-index="index"
+          :element="element"
+        />
+      </template>
     </div>
+
+    <div
+      v-else
+      class="h-100 d-flex justify-center align-center"
+    >
+      Добавьте элементы справа
+    </div>
+  </div>
 </template>
 
 <script

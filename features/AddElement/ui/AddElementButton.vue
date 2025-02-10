@@ -1,14 +1,14 @@
 <template>
-    <v-btn
-        @click="onAddElementClick"
-    >
-        <v-icon
-            icon="mdi-plus"
-            size="x-large"
-            start
-        ></v-icon>
-        Добавить элемент
-    </v-btn>
+  <v-btn
+    @click="onAddElementClick"
+  >
+    <v-icon
+      icon="mdi-plus"
+      size="x-large"
+      start
+    ></v-icon>
+    Добавить элемент
+  </v-btn>
 </template>
 
 <script
@@ -19,6 +19,6 @@
 const emits = defineEmits(['onAddElementClick'])
 
 const onAddElementClick = () => {
-    emits('onAddElementClick')
+  emits('onAddElementClick')
 }
 </script>

@@ -1,10 +1,10 @@
 class LoginData {
-    // TODO: переделать на loginOrEmail
-    login = ''
+  // TODO: переделать на loginOrEmail
+  login = ''
 
-    password = ''
+  password = ''
 
-    isContainsValues = () => !!this.login && !!this.password
+  isContainsValues = () => !!this.login && !!this.password
 }
 
 export default LoginData

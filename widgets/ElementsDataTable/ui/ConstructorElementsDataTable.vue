@@ -1,35 +1,35 @@
 <template>
-    <div>
-        <AddElementButton
-            @on-add-element-click="openAddDialog"
-        />
+  <div>
+    <AddElementButton
+      @on-add-element-click="openAddDialog"
+    />
 
-        <ElementsTable />
+    <ElementsTable />
 
-        <v-dialog
-            v-model="addDialog"
-            width="auto"
-            height="auto"
-            class="addition_dialog"
-            persistent
-        >
-            <AddElementsCard
-                @close-dialog="closeAddDialog"
-            />
-        </v-dialog>
+    <v-dialog
+      v-model="addDialog"
+      width="auto"
+      height="auto"
+      class="addition_dialog"
+      persistent
+    >
+      <AddElementsCard
+        @close-dialog="closeAddDialog"
+      />
+    </v-dialog>
 
-        <v-dialog
-            v-model="noAudioDialog"
-            width="auto"
-            :absolute="true"
-        >
-            <v-alert
-                type="warning"
-                text="Пожалуйста, выберите музыкальную композицию"
-            >
-            </v-alert>
-        </v-dialog>
-    </div>
+    <v-dialog
+      v-model="noAudioDialog"
+      width="auto"
+      :absolute="true"
+    >
+      <v-alert
+        type="warning"
+        text="Пожалуйста, выберите музыкальную композицию"
+      >
+      </v-alert>
+    </v-dialog>
+  </div>
 </template>
 
 <script
@@ -46,15 +46,15 @@ const noAudioDialog = ref<boolean>(false)
 const audio = useAudioMetaData()
 
 const openAddDialog = () => {
-    if (audio.value.audioUrl) {
-        addDialog.value = true
-    } else {
-        noAudioDialog.value = true
-    }
+  if (audio.value.audioUrl) {
+    addDialog.value = true
+  } else {
+    noAudioDialog.value = true
+  }
 }
 
 const closeAddDialog = () => {
-    addDialog.value = false
+  addDialog.value = false
 }
 
 </script>
