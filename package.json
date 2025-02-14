@@ -3,6 +3,9 @@
   "author": "Vladislav Petrov <vlad-hiff137@yandex.ru>",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": "22.14.0"
+  },
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -28,8 +31,7 @@
     "@typescript-eslint/parser": "^6.11.0",
     "eslint": "^8.53.0",
     "eslint-plugin-vue": "^9.18.1",
-    "node-sass": "^9.0.0",
-    "nuxt": "^3.8.0",
+    "nuxt": "3.12.4",
     "sass-loader": "^13.3.2",
     "typescript": "^5.2.2",
     "vue": "^3.3.7",
