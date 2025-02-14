@@ -50,6 +50,6 @@
     "reflect-metadata": "^0.2.2",
     "scss": "^0.2.4",
     "uuid": "^9.0.1",
-    "vuetify": "^3.5.2"
+    "vuetify": "^3.7.11"
   }
 }

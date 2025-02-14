@@ -140,8 +140,8 @@ const onAdd = () => {
       isShow: true,
       startTime: getSecondFromMinuteAndSeconds(elementData.startTime),
       endTime: getSecondFromMinuteAndSeconds(elementData.endTime),
-      x: 50,
-      y: 50,
+      x: 0.4,
+      y: 0.4,
       bgClass: `bg-${props.tab}-element`
     })
 
@@ -150,7 +150,7 @@ const onAdd = () => {
     console.log('added tableElement: ', tableElement)
     elements.value.push(tableElement)
     elements.value = elements.value.sort((a, b) => a.startTime - b.startTime)
-    emits('addElement')
+    emits('addElement', tableElement)
   }
 }
 

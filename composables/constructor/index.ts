@@ -7,6 +7,7 @@ const stepSequence: StepSequencePos[] = []
 const audioMetaData: AudioMetaData = {}
 const lastElementStartTime: number = 0
 const programName: string = ''
+const schemeElement: HTMLElement | null = null
 
 export const useTableElements = () => useState<ElementTableView[]>('elements', () => elements)
 export const useCurrentDraggableElement = () => useState<HTMLElement | null>('currentDraggable', () => currentDraggableElement)
@@ -15,3 +16,4 @@ export const useStepSequence = () => useState<StepSequencePos[]>('stepSequence',
 export const useAudioMetaData = () => useState<AudioMetaData>('audioMetaData', () => audioMetaData)
 export const useLastElementStartTime = () => useState<number>('lastElementStartTime', () => lastElementStartTime)
 export const useProgramName = () => useState<string>('programName', () => programName)
+export const useSchemeElement = () => useState<HTMLElement | null>('schemeElement', () => schemeElement)

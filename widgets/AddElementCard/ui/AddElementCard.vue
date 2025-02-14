@@ -1,78 +1,84 @@
 <template>
   <v-card>
-    <div class="d-flex flex-row">
-      <v-tabs
-        v-model="tab"
-        bg-color="primary"
-        direction="vertical"
-      >
-        <v-tab value="jump">
-          Прыжки
-        </v-tab>
-        <v-tab value="spin">
-          Вращения
-        </v-tab>
-        <v-tab value="track">
-          Дорожки
-        </v-tab>
-        <v-tab value="addition">
-          Дополнительно
-        </v-tab>
-      </v-tabs>
+    <v-row>
+      <v-col cols="12" md="5">
+        <v-row>
+          <v-tabs
+            v-model="tab"
+            bg-color="primary"
+            direction="vertical"
+          >
+            <v-tab value="jump">
+              Прыжки
+            </v-tab>
+            <v-tab value="spin">
+              Вращения
+            </v-tab>
+            <v-tab value="track">
+              Дорожки
+            </v-tab>
+            <v-tab value="addition">
+              Дополнительно
+            </v-tab>
+          </v-tabs>
 
-      <v-window v-model="tab">
-        <v-window-item value="jump">
-          <v-card flat>
-            <v-card-text>
-              <ElementsVerticalList
-                :elements="jumps"
-                type="jump"
-                @element-click="onJumpClick"
-              />
-            </v-card-text>
-          </v-card>
-        </v-window-item>
+          <v-tabs-window v-model="tab">
+            <v-tabs-window-item value="jump">
+              <v-card flat>
+                <v-card-text>
+                  <ElementsVerticalList
+                    :elements="jumps"
+                    type="jump"
+                    @element-click="onJumpClick"
+                  />
+                </v-card-text>
+              </v-card>
+            </v-tabs-window-item>
 
-        <v-window-item value="spin">
-          <v-card flat>
-            <v-card-text>
-              <ElementsVerticalList
-                :elements="spins"
-                type="spin"
-                @element-click="onSpinClick"
-              />
-            </v-card-text>
-          </v-card>
-        </v-window-item>
+            <v-tabs-window-item value="spin">
+              <v-card flat>
+                <v-card-text>
+                  <ElementsVerticalList
+                    :elements="spins"
+                    type="spin"
+                    @element-click="onSpinClick"
+                  />
+                </v-card-text>
+              </v-card>
+            </v-tabs-window-item>
 
-        <v-window-item value="track">
-          <v-card flat>
-            <v-card-text>
-              <ElementsVerticalList
-                :elements="tracks"
-                type="track"
-                @element-click="onTrackClick"
-              />
-            </v-card-text>
-          </v-card>
-        </v-window-item>
+            <v-tabs-window-item value="track">
+              <v-card flat>
+                <v-card-text>
+                  <ElementsVerticalList
+                    :elements="tracks"
+                    type="track"
+                    @element-click="onTrackClick"
+                  />
+                </v-card-text>
+              </v-card>
+            </v-tabs-window-item>
 
-        <v-window-item value="addition">
-          <v-card flat>
-            <v-card-text>
-              Additions
-            </v-card-text>
-          </v-card>
-        </v-window-item>
-      </v-window>
+            <v-tabs-window-item value="addition">
+              <v-card flat>
+                <v-card-text>
+                  Additions
+                </v-card-text>
+              </v-card>
+            </v-tabs-window-item>
+          </v-tabs-window>
+        </v-row>
+      </v-col>
 
-      <ElementParametersForm
-        :selected-element="selectedElement"
-        :tab="tab"
-        @close-dialog="onDialogClose"
-        @add-element="onDialogClose"
-      />
-    </div>
+      <v-col cols="12" md="7">
+        <ElementParametersForm
+          :selected-element="selectedElement"
+          :tab="tab"
+          @close-dialog="onDialogClose"
+          @add-element="onDialogClose"
+        />
+      </v-col>
+    </v-row>
   </v-card>
 </template>
 

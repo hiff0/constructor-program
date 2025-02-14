@@ -55,4 +55,11 @@ onMounted(() => {
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }
+
+@media (max-width: 767px) {
+  .element {
+    width: 20px;
+    height: 20px;
+  }
+}
 </style>

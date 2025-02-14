@@ -40,7 +40,7 @@
           :transform="`translate(${line.quadraticCurvePos.cpx}, ${line.quadraticCurvePos.cpy})`"
           :class="`u-point${index}`"
         >
-          <circle r="5" />
+          <circle :r="isMobile ? 7 : 5" />
         </g>
       </template>
 
@@ -50,22 +50,21 @@
       >
         <g
           v-if="element.isShow"
-          :width="elementRadius"
-          :height="elementRadius"
           :class="`u-element${index}`"
         >
           <circle
-            :cx="element.x"
-            :cy="element.y"
+            :cx="element.x * schemeWidth"
+            :cy="element.y * schemeHeight"
             :r="elementRadius"
             stroke="none"
             fill="white"
           />
           <text
-            :x="element.x"
-            :y="element.y"
+            :x="element.x * schemeWidth"
+            :y="element.y * schemeHeight"
             dominant-baseline="middle"
             text-anchor="middle"
+            :font-size="isMobile ? 14: 16"
           >
             {{ element.fullname }}
           </text>
@@ -83,12 +82,27 @@ import * as d3 from 'd3'
 import { useTableElements } from '@composables'
 import { getLineCenter, getQuadraticCurvePath, getTriangleCoord } from '@shared/utils/rinkCanvas'
 import type { StepSequencePos, StartPoint, QuadraticCurvePos, ElementTableView } from '@interfaces'
+import { useIsMobile } from '@composables/common'
+import { useSchemeElement } from '@composables/constructor'
 
 const elements = useTableElements()
 const audioMetaData = useAudioMetaData()
+const isMobile = useIsMobile()
+
+const schemeElement = useSchemeElement()
 
 const scheme = ref<HTMLElement | null>(null)
-const elementRadius = ref<number>(20)
+const elementRadius = computed<number>(() => isMobile.value ? 15 : 20)
+const schemeWidth = ref<number>(schemeElement.value?.clientWidth || 1)
+const schemeHeight = ref<number>(schemeElement.value?.clientHeight || 1)
+
+const setSchemeSize = () => {
+  schemeWidth.value = schemeElement.value?.clientWidth || 1
+  schemeHeight.value = schemeElement.value?.clientHeight || 1
+}
+
+watch(isMobile, setSchemeSize)
+watch(schemeElement, setSchemeSize)
 
 const getQuadraticStepSequence = (elements: ElementTableView[]): StepSequencePos[] => {
   return elements.reduce((acc: StepSequencePos[], element, index, elementsOrigin) => {
@@ -96,17 +110,17 @@ const getQuadraticStepSequence = (elements: ElementTableView[]): StepSequencePos
     if (element.isShow &&
             nextElement &&
             nextElement.isShow) {
-      const x0 = element.x as number
-      const y0 = element.y as number
+      const x0 = element.x as number * schemeWidth.value
+      const y0 = element.y as number * schemeHeight.value
 
       const startPos: StartPoint = { x0, y0 }
 
-      const x = nextElement.x as number
-      const y = nextElement.y as number
+      const x = nextElement.x as number * schemeWidth.value
+      const y = nextElement.y as number * schemeHeight.value
 
       const lineCenter = getLineCenter(x0, y0, x, y)
-      const cpx = nextElement.cpx || lineCenter.x
-      const cpy = nextElement.cpy || lineCenter.y
+      const cpx = nextElement.cpx ? nextElement.cpx * schemeWidth.value : lineCenter.x
+      const cpy = nextElement.cpy ? nextElement.cpy * schemeHeight.value : lineCenter.y
       const quadraticCurvePos: QuadraticCurvePos = {
         cpx,
         cpy,
@@ -140,7 +154,7 @@ const points = computed<number[][]>(() => quadraticStepSequence.value.reduce((ac
 
 const elementsCenterPoints = computed<number[][]>(() => elements.value.reduce((acc: number[][], element, index) => {
   if (element.x && element.y) {
-    acc.push([element.x, element.y, index])
+    acc.push([element.x * schemeWidth.value, element.y * schemeHeight.value, index])
   }
 
   return acc
@@ -173,7 +187,16 @@ watch(audioMetaData, (audioData) => {
 })
 
 onMounted(() => {
+  isMobile.value = document.body.clientWidth < 768
+  const mql = window.matchMedia('(max-width: 767px)')
+  mql.addEventListener('change', (e) => {
+    if (isMobile.value !== e.matches) {
+      isMobile.value = e.matches
+    }
+  })
+
   if (scheme.value) {
+    schemeElement.value = scheme.value
     const schemeSvg = scheme.value
 
     const dist = (p: [number, number], m: [number, number, number]) => {
@@ -187,8 +210,9 @@ onMounted(() => {
     // let pathIndex: number
     let isElementDrag = false
 
-    function dragSubject (event: { sourceEvent: MouseEvent }) {
-      const p = d3.pointer(event.sourceEvent, schemeSvg)
+    function dragSubject (event: { sourceEvent: MouseEvent | TouchEvent }) {
+      const touchObj = event.sourceEvent instanceof TouchEvent ? event.sourceEvent.touches[0] : null
+      const p = touchObj ? d3.pointer(touchObj, schemeSvg) : d3.pointer(event.sourceEvent, schemeSvg)
       subject = d3.least(points.value, (a, b) => dist(p, a) - dist(p, b))
       if ((subject && dist(p, subject) > 10) || !subject) {
         subject = d3.least(elementsCenterPoints.value, (a, b) => dist(p, a) - dist(p, b))
@@ -233,11 +257,43 @@ onMounted(() => {
 
               const currElement = elements.value[currentElementIndex]
               if (isElementDrag) {
-                currElement.x = subject[0]
-                currElement.y = subject[1]
+                currElement.x = subject[0] / schemeWidth.value
+                currElement.y = subject[1] / schemeHeight.value
               } else {
-                currElement.cpx = subject[0]
-                currElement.cpy = subject[1]
+                currElement.cpx = subject[0] / schemeWidth.value
+                currElement.cpy = subject[1] / schemeHeight.value
+              }
+            }
+          })
+          .on('end', () => {
+            d3.select(schemeSvg).style('cursor', 'grab')
+          })
+      )
+
+    d3.select(schemeSvg)
+      .on('touchmove', event => dragSubject({ sourceEvent: event }))
+      .call(
+        d3.drag()
+          .subject(dragSubject)
+          .on('start', (event) => {
+            if (subject) {
+              d3.select(schemeSvg).style('cursor', 'grabbing')
+              dx = subject[0] - event.x
+              dy = subject[1] - event.y
+            }
+          })
+          .on('drag', (event) => {
+            if (subject) {
+              subject[0] = event.x + dx
+              subject[1] = event.y + dy
+
+              const currElement = elements.value[currentElementIndex]
+              if (isElementDrag) {
+                currElement.x = subject[0] / schemeWidth.value
+                currElement.y = subject[1] / schemeHeight.value
+              } else {
+                currElement.cpx = subject[0] / schemeWidth.value
+                currElement.cpy = subject[1] / schemeHeight.value
               }
             }
           })
@@ -251,6 +307,10 @@ onMounted(() => {
     },
     {
       deep: true
+    })
+
+    watch(schemeWidth, () => {
+      quadraticStepSequence.value = getQuadraticStepSequence(elements.value)
     })
   }
 })
@@ -269,5 +329,15 @@ onMounted(() => {
 
     width: 100%;
     height: 100%;
+}
+
+@media (max-width: 767px) {
+  .scheme_container {
+    width: 100%;
+  }
+
+  .scheme {
+    border-radius: 30px;
+  }
 }
 </style>

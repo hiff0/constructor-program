@@ -1,6 +1,7 @@
 <template>
   <div>
     <AddElementButton
+      class="mb-3"
       @on-add-element-click="openAddDialog"
     />
 

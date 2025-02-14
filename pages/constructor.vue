@@ -13,7 +13,7 @@
 
         <ElementsDataTable />
         <div
-          class="d-flex justify-end position-sticky constructor-save-btn"
+          class="d-flex justify-end position-sticky mt-2 constructor-save-btn"
         >
           <SaveTrainigButton />
         </div>

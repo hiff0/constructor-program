@@ -16,20 +16,24 @@
       <ProgramPlayer />
     </div>
 
-    <div class="d-flex align-center">
-      <label for="constructorAudio" class="mr-3">
-        {{ audioMetaData.audioName }}
-      </label>
-      <audio
-        id="constructorAudio"
-        ref="audioRef"
-        controls
-        :src="audioMetaData.audioUrl"
-        @timeupdate="onTimeUpdate($event)"
-      >
-        К сожалению, ваш браузер не поддерживает встроенное аудио
-      </audio>
-    </div>
+    <v-row class="align-center">
+      <v-col cols="12" sm="6">
+        <label for="constructorAudio" class="mr-3">
+          {{ audioMetaData.audioName }}
+        </label>
+      </v-col>
+      <v-col cols="12" sm="6">
+        <audio
+          id="constructorAudio"
+          ref="audioRef"
+          controls
+          :src="audioMetaData.audioUrl"
+          @timeupdate="onTimeUpdate($event)"
+        >
+          К сожалению, ваш браузер не поддерживает встроенное аудио
+        </audio>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
