@@ -90,6 +90,7 @@ export type ElementTableView = ElementView & {
     isShow?: boolean;
 
     bgClass: string;
+    isNotShowInTable?: boolean;
 }
 
 // ---------------------------- Auth ------------------------------------

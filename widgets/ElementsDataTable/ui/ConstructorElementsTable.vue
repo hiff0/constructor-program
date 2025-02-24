@@ -21,10 +21,10 @@
     </thead>
     <tbody>
       <template
-        v-if="elements.length"
+        v-if="showedElements.length"
       >
         <tr
-          v-for="(element, index) in elements"
+          v-for="(element, index) in showedElements"
           :key="element.key"
         >
           <td class="text-center">
@@ -76,8 +76,9 @@ import { useTableElements } from '@composables'
 import type { ElementTableView, JumpsDifficultLvls, DefaultDifficultLvls } from '@interfaces'
 
 const elements = useTableElements()
+const showedElements = computed(() => elements.value.filter(element => !element.isNotShowInTable))
 
-const sumBaseCost = computed(() => elements.value.reduce((acc: number, element: ElementTableView) => {
+const sumBaseCost = computed(() => showedElements.value.reduce((acc: number, element: ElementTableView) => {
   const baseCost = element.difficultLvls[element.lvlName as keyof (JumpsDifficultLvls | DefaultDifficultLvls)]?.baseCost
   if (baseCost) {
     acc = parseFloat((acc + baseCost).toFixed(2))

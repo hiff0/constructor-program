@@ -195,6 +195,25 @@ onMounted(() => {
     }
   })
 
+  // Если элементов еще нет, добавляем "Старт"
+  if (elements.value.length === 0) {
+    const startElement: ElementTableView = {
+      key: 'start-element',
+      fullname: 'Start',
+      lvlName: '',
+      timeExecute: '00-00',
+      isShow: true,
+      startTime: 0,
+      endTime: 1,
+      x: 0.4,
+      y: 0.4,
+      bgClass: 'bg-start-elemen',
+      isNotShowInTable: true
+    }
+
+    elements.value.push(startElement)
+  }
+
   if (scheme.value) {
     schemeElement.value = scheme.value
     const schemeSvg = scheme.value
@@ -228,7 +247,6 @@ onMounted(() => {
 
       if (subject) {
         currentElementIndex = subject[2]
-        // pathIndex = subject[3]
 
         d3.select(schemeSvg)
           .style('cursor', 'grab')
@@ -238,69 +256,64 @@ onMounted(() => {
       return subject
     }
 
+    const onDragStart = (event: MouseEvent) => {
+      if (subject) {
+        d3.select(schemeSvg).style('cursor', 'grabbing')
+        // Учитываем положение курсора мышки относительно центра элемента
+        dx = subject[0] - event.x
+        dy = subject[1] - event.y
+      }
+    }
+
+    const onDragMove = (event: MouseEvent) => {
+      if (subject) {
+        subject[0] = event.x + dx
+        subject[1] = event.y + dy
+
+        const currElement = elements.value[currentElementIndex]
+
+        if (isElementDrag) {
+          if (subject[0] < schemeWidth.value && subject[0] > 0) {
+            currElement.x = subject[0] / schemeWidth.value
+          }
+          if (subject[1] < schemeHeight.value && subject[1] > 0) {
+            currElement.y = subject[1] / schemeHeight.value
+          }
+        } else {
+          if (subject[0] < schemeWidth.value && subject[0] > 0) {
+            currElement.cpx = subject[0] / schemeWidth.value
+          }
+          if (subject[1] < schemeHeight.value && subject[1] > 0) {
+            currElement.cpy = subject[1] / schemeHeight.value
+          }
+        }
+      }
+    }
+
+    const onDragEnd = () => {
+      d3.select(schemeSvg).style('cursor', 'grab')
+    }
+
     d3.select(schemeSvg)
       .on('mousemove', event => dragSubject({ sourceEvent: event }))
-      .call(
-        d3.drag()
-          .subject(dragSubject)
-          .on('start', (event) => {
-            if (subject) {
-              d3.select(schemeSvg).style('cursor', 'grabbing')
-              dx = subject[0] - event.x
-              dy = subject[1] - event.y
-            }
-          })
-          .on('drag', (event) => {
-            if (subject) {
-              subject[0] = event.x + dx
-              subject[1] = event.y + dy
-
-              const currElement = elements.value[currentElementIndex]
-              if (isElementDrag) {
-                currElement.x = subject[0] / schemeWidth.value
-                currElement.y = subject[1] / schemeHeight.value
-              } else {
-                currElement.cpx = subject[0] / schemeWidth.value
-                currElement.cpy = subject[1] / schemeHeight.value
-              }
-            }
-          })
-          .on('end', () => {
-            d3.select(schemeSvg).style('cursor', 'grab')
-          })
-      )
-
-    d3.select(schemeSvg)
       .on('touchmove', event => dragSubject({ sourceEvent: event }))
       .call(
         d3.drag()
           .subject(dragSubject)
-          .on('start', (event) => {
-            if (subject) {
-              d3.select(schemeSvg).style('cursor', 'grabbing')
-              dx = subject[0] - event.x
-              dy = subject[1] - event.y
-            }
-          })
-          .on('drag', (event) => {
-            if (subject) {
-              subject[0] = event.x + dx
-              subject[1] = event.y + dy
-
-              const currElement = elements.value[currentElementIndex]
-              if (isElementDrag) {
-                currElement.x = subject[0] / schemeWidth.value
-                currElement.y = subject[1] / schemeHeight.value
-              } else {
-                currElement.cpx = subject[0] / schemeWidth.value
-                currElement.cpy = subject[1] / schemeHeight.value
-              }
-            }
-          })
-          .on('end', () => {
-            d3.select(schemeSvg).style('cursor', 'grab')
-          })
+          .on('start', onDragStart)
+          .on('drag', onDragMove)
+          .on('end', onDragEnd)
       )
+
+    // d3.select(schemeSvg)
+    //   .on('touchmove', event => dragSubject({ sourceEvent: event }))
+    //   .call(
+    //     d3.drag()
+    //       .subject(dragSubject)
+    //       .on('start', onDragStart)
+    //       .on('drag', onDragMove)
+    //       .on('end', onDragEnd)
+    //   )
 
     watch(elements, (updatedElements): void => {
       quadraticStepSequence.value = getQuadraticStepSequence(updatedElements)
